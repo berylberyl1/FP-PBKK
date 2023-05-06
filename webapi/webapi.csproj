@@ -17,7 +17,6 @@
     <Folder Include="Domain\Catalogue\Service\" />
     <Folder Include="Domain\Catalogue\Repository\" />
     <Folder Include="Infrastructure\Query\" />
-    <Folder Include="Infrastructure\Repository\" />
   </ItemGroup>
 
 </Project>

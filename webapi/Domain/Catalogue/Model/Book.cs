@@ -1,7 +1,7 @@
-﻿namespace webapi.Domain.Catalogue.Model {
-    public class Book {
-        public int Id { get; set; }
-        public string? Title { get; set; }
-        public string? Author { get; set; }
-    }
+﻿namespace webapi.Domain.Catalogue.Model;
+
+public class Book {
+    public int Id { get; init; }
+    public string? Title { get; init; }
+    public string? Author { get; init; }
 }
