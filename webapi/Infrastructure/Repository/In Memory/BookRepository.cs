@@ -30,7 +30,9 @@ public class BookRepository : IRepository<Book> {
     }
 
     public Book GetById(int id) {
+#pragma warning disable CS8603 // Possible null reference return.
         return books.Where(book => book.Id == id).SingleOrDefault();
+#pragma warning restore CS8603 // Possible null reference return.
     }
 
     public void Update(Book entity) {

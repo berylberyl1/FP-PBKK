@@ -1,0 +1,48 @@
+<template>
+    <v-card flat class="d-flex" color="transparent">
+        <v-row>
+            <v-col cols="3" class="pb-12">
+                <v-card-title class="font-weight-bold text-start pl-0 pr-0 pt-0">Best Sellers</v-card-title>
+                <v-card-text class="text-start pl-0 pr-0">
+                    Discover the hottest best sellers that everyone is talking about. 
+                </v-card-text>
+                <v-btn rounded="lg" style="float: left;" color="primary">
+                    More
+                </v-btn>
+            </v-col>
+            <v-col>
+                <v-sheet
+                    color="transparent"
+                    max-width="600"
+                >
+                    <v-slide-group
+                        v-model="model"
+                        show-arrows
+                    >
+                        <v-slide-group-item
+                            v-for="n in 15"
+                            :key="n"
+                        >
+                            <BookItem class="mx-5" />
+                        </v-slide-group-item>
+                    </v-slide-group>
+                </v-sheet>
+            </v-col>
+        </v-row>
+    </v-card>
+</template>   
+    
+<script lang="js">
+import BookItem from '@/components/BookItem.vue'
+
+export default {
+    name: 'BookSection',
+    data: () => ({
+      model: null,
+    }),
+    components: {
+        BookItem,
+    }
+};
+</script>
+    

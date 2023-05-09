@@ -1,26 +1,55 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<v-app :style="cssProps">
+  <v-main>
+    <NavigationBar />
+    <GeneralContainer>
+      <v-row>
+        <v-col cols="2" class="pl-0">
+          <SideBar />
+        </v-col>
+        <v-col cols="10">
+          <BookContainer />
+        </v-col>
+      </v-row>
+    </GeneralContainer>
+  </v-main>
+</v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavigationBar from '@/components/NavigationBar.vue';
+import SideBar from '@/components/SideBar.vue';
+import BookContainer from '@/components/BookContainer.vue';
+import GeneralContainer from '@/components/GeneralContainer.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    NavigationBar,
+    SideBar,
+    BookContainer,
+    GeneralContainer,
+  },
+  computed: {
+    cssProps () {
+        var themeColors = {}
+        Object.keys(this.$vuetify.theme.themes.light).forEach((color) => {
+          themeColors[`--v-${color}`] = this.$vuetify.theme.themes.light[color]
+        })
+        return themeColors
+    }
   }
 }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope&display=swap');
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Manrope, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
