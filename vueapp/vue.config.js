@@ -25,7 +25,10 @@ module.exports = {
         },
         proxy: {
             '^/book': {
-                target: 'https://localhost:7095/'
+                target: 'http://localhost:5050'
+            },
+            '^/home': {
+                target: 'http://localhost:5050'
             }
         },
         port: 5002

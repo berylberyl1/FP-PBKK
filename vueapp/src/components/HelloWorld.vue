@@ -5,19 +5,19 @@
         </div>
 
         <div v-if="post" class="content">
+            <div v-if="imageDictSrc">
+                <img :src="imageDictSrc[0]" alt="Book Image" />
+            </div>
+            <p> {{ post['booksFromGenre']['books'] }} </p>
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Author</th>
+                        <th>Genre</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="book in post" :key="book.id">
-                        <td>{{ book.id }}</td>
-                        <td>{{ book.title }}</td>
-                        <td>{{ book.author }}</td>
+                    <tr v-for="genre in post['genre']" :key="genre.genre">
+                        <td>{{ genre.genre }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -31,6 +31,7 @@
     export default defineComponent({
         data() {
             return {
+                imageDictSrc: [],
                 loading: false,
                 post: null
             };
@@ -40,21 +41,34 @@
             // already being observed
             this.fetchData();
         },
+        beforeUnmount() {
+            if (this.imageDictSrc) {
+                this.imageDictSrc.forEach((imageSrc) => {
+                    URL.revokeObjectURL(imageSrc);
+                })  
+            }
+        },
         watch: {
             // call again the method if the route changes
             '$route': 'fetchData'
         },
         methods: {
+            loadImageData() {
+                this.post['booksFromGenre']['books'].forEach((book) => {
+                    this.imageDictSrc[book['id']] = `data:image/png;base64,${book['thumbnail']}`;
+                })
+            },
             fetchData() {
                 this.post = null;
                 this.loading = true;
 
-                fetch('book')
+                fetch('home')
                     .then(r => r.json())
                     .then(json => {
                         console.log(json);
                         this.post = json;
                         this.loading = false;
+                        this.loadImageData()
                         return;
                     });
             }

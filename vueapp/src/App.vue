@@ -12,6 +12,7 @@
         </v-col>
       </v-row>
     </GeneralContainer>
+    <HelloWorld />
   </v-main>
 </v-app>
 </template>
@@ -21,6 +22,7 @@ import NavigationBar from '@/components/NavigationBar.vue';
 import SideBar from '@/components/SideBar.vue';
 import BookContainer from '@/components/BookContainer.vue';
 import GeneralContainer from '@/components/GeneralContainer.vue';
+import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
   name: 'App',
@@ -29,6 +31,7 @@ export default {
     SideBar,
     BookContainer,
     GeneralContainer,
+    HelloWorld,
   },
   computed: {
     cssProps () {

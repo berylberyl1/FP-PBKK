@@ -1,12 +1,16 @@
 using Microsoft.Extensions.Options;
+using webapi.Application.Query.Catalogue.BooksFromGenre;
+using webapi.Application.Query.Catalogue.Genre;
 using webapi.Domain.Catalogue.Model;
 using webapi.Domain.Catalogue.Repository;
+using webapi.Infrastructure.Query.Catalogue;
 using webapi.Infrastructure.Repository.InMemory;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSingleton<IBooksFromGenreQuery, BooksFromGenreQuery>();
+builder.Services.AddSingleton<IGenreQuery, GenreQuery>();
 builder.Services.AddSingleton<IRepository<Book>, BookRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -31,5 +35,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseStaticFiles();
 
 app.Run();
