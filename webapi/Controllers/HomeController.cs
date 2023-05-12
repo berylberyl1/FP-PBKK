@@ -19,14 +19,6 @@ public class HomeController : ControllerBase {
     public IActionResult Get() {
         var genreResult = genreQuery.Execute();
         var booksFromGenreResult = booksFromGenreQuery.Execute("Fantasy");
-        // if(booksFromGenreResult.Books != null) {
-        //     foreach(var book in booksFromGenreResult.Books) {
-        //         if(book.ThumbnailInfo?.Exists) {
-        //         PhysicalFile(book.ThumbnailInfo?.PhysicalPath, "image/jpeg");
-        //         }
-        //     }
-        // }
-
         var data = new { Genre = genreResult, BooksFromGenre = booksFromGenreResult };
         return Ok(data);
     }

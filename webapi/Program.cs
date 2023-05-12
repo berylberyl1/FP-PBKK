@@ -1,8 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using webapi.Application.Query.Catalogue.BooksFromGenre;
 using webapi.Application.Query.Catalogue.Genre;
 using webapi.Domain.Catalogue.Model;
 using webapi.Domain.Catalogue.Repository;
+using webapi.Infrastructure.Database.EntityFramework;
 using webapi.Infrastructure.Query.Catalogue;
 using webapi.Infrastructure.Repository.InMemory;
 
@@ -13,6 +15,9 @@ builder.Services.AddSingleton<IBooksFromGenreQuery, BooksFromGenreQuery>();
 builder.Services.AddSingleton<IGenreQuery, GenreQuery>();
 builder.Services.AddSingleton<IRepository<Book>, BookRepository>();
 builder.Services.AddControllers();
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

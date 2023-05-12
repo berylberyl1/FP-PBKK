@@ -14,10 +14,7 @@ public class BooksFromGenreQuery : IBooksFromGenreQuery {
     public BooksFromGenreDto Execute(string genre) {
         logger.LogInformation(environment.WebRootPath);
 
-        //var provider = new PhysicalFileProvider(environment.WebRootPath);
-        //var fileInfo = provider.GetFileInfo(Path.Combine("Images","images.png"));
         var thumbnail = File.ReadAllBytes(Path.Combine(environment.WebRootPath, "Images", "images.png"));
-        //fileInfo.CreateReadStream().BeginRead()
 
         return new BooksFromGenreDto() {
             Genre = "Fantasy",
