@@ -1,8 +1,8 @@
 namespace webapi.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using webapi.Domain.Catalogue.Model;
 using webapi.Domain.Catalogue.Repository;
+using webapi.Infrastructure.Database.Model;
 
 [ApiController]
 [Route("[controller]")]
@@ -19,7 +19,7 @@ public class BookController : ControllerBase {
     }
 
     [HttpGet("{id}")]
-    public Book Get(int id) {
+    public Book? Get(int id) {
         return repository.GetById(id);
     }
 }
