@@ -7,5 +7,5 @@ public class Book {
     [Required] public string? Title { get; set; }
     [Required] public string? Author { get; set; }
     public string? ThumbnailPath { get; set; }
-    public DateTime CreatedDateTime { get; set; } = DateTime.Now;
+    public DateTime? CreatedDateTime { get; set; } = DateTime.Now;
 }
