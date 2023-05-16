@@ -8,4 +8,5 @@ public class Book {
     [Required] public string? Author { get; set; }
     public string? ThumbnailPath { get; set; }
     public DateTime? CreatedDateTime { get; set; } = DateTime.Now;
+    public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 }
