@@ -1,12 +1,20 @@
 namespace webapi.Infrastructure.Query.Catalogue;
 
 using webapi.Application.Query.Catalogue.Genre;
+using webapi.Domain.Catalogue.Repository;
+using webapi.Infrastructure.Database.Model;
 
 public class GenreQuery : IGenreQuery {
+    IRepository<Genre> repository;
+
+    public GenreQuery(IRepository<Genre> repository) {
+        this.repository = repository;
+    }
+
     public List<GenreDto> Execute() {
         List<GenreDto> genres = new List<GenreDto>();
-        foreach(string genre in new []{"Fantasy", "Horror", "Action", "Romance"}) {
-            genres.Add(new GenreDto() { Genre = genre });
+        foreach(Genre genre in repository.GetAll()) {
+            genres.Add(new GenreDto() { Genre = genre.Name });
         }
 
         return genres;

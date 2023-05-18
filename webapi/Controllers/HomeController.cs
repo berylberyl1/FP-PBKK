@@ -1,16 +1,16 @@
 namespace webapi.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using webapi.Application.Query.Catalogue.BooksFromGenre;
+using webapi.Application.Query.Catalogue.RandomBooksFromGenre;
 using webapi.Application.Query.Catalogue.Genre;
 
 [ApiController]
 [Route("[controller]")]
 public class HomeController : ControllerBase {
     IGenreQuery genreQuery;
-    IBooksFromGenreQuery booksFromGenreQuery;
+    IRandomBooksFromGenreQuery booksFromGenreQuery;
 
-    public HomeController(IGenreQuery genreQuery, IBooksFromGenreQuery booksFromGenreQuery) {
+    public HomeController(IGenreQuery genreQuery, IRandomBooksFromGenreQuery booksFromGenreQuery) {
         this.genreQuery = genreQuery;
         this.booksFromGenreQuery = booksFromGenreQuery;
     }
@@ -18,8 +18,12 @@ public class HomeController : ControllerBase {
     [HttpGet]
     public IActionResult Get() {
         var genreResult = genreQuery.Execute();
-        var booksFromGenreResult = booksFromGenreQuery.Execute("Fantasy");
-        var data = new { Genre = genreResult, BooksFromGenre = booksFromGenreResult };
+        var booksFromGenreResults = new List<RandomBooksFromGenreDto>();
+        foreach(GenreDto genreDto in genreResult) {
+            if(genreDto.Genre == null) continue;
+            booksFromGenreResults.Add(booksFromGenreQuery.Execute(genreDto.Genre, 5));
+        }
+        var data = new { Genre = genreResult, RandomBooksFromGenre = booksFromGenreResults };
         return Ok(data);
     }
 }

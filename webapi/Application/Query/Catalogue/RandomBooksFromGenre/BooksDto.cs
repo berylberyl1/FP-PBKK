@@ -1,4 +1,4 @@
-namespace webapi.Application.Query.Catalogue.BooksFromGenre;
+namespace webapi.Application.Query.Catalogue.RandomBooksFromGenre;
 
 public class BooksDto {
     public int Id { get; init; }

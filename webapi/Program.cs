@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using webapi.Application.Query.Catalogue.BooksFromGenre;
+using webapi.Application.Query.Catalogue.RandomBooksFromGenre;
 using webapi.Application.Query.Catalogue.Genre;
 using webapi.Domain.Catalogue.Repository;
 using webapi.Infrastructure.Database.EntityFramework;
@@ -11,9 +11,10 @@ using webapi.Infrastructure.Repository.SQLServer;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddTransient<IBooksFromGenreQuery, BooksFromGenreQuery>();
+builder.Services.AddTransient<IRandomBooksFromGenreQuery, RandomBooksFromGenreQuery>();
 builder.Services.AddTransient<IGenreQuery, GenreQuery>();
 builder.Services.AddScoped<IRepository<Book>, BookRepository>();
+builder.Services.AddScoped<IRepository<Genre>, GenreRepository>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")

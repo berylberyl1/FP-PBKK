@@ -8,7 +8,7 @@
             <div v-if="imageDictSrc">
                 <img :src="imageDictSrc[0]" alt="Book Image" />
             </div>
-            <p> {{ post['booksFromGenre']['books'] }} </p>
+            <p> {{ post['randomBooksFromGenre']['books'] }} </p>
             <table>
                 <thead>
                     <tr>
@@ -54,8 +54,8 @@
         },
         methods: {
             loadImageData() {
-                this.post['booksFromGenre']['books'].forEach((book) => {
-                    this.imageDictSrc[book['id']] = `data:image/png;base64,${book['thumbnail']}`;
+                this.post['randomBooksFromGenre'][0]['books'].forEach((book) => {
+                    this.imageDictSrc[book['id']] = `data:image/jpg;base64,${book['thumbnail']}`;
                 })
             },
             fetchData() {
@@ -65,7 +65,7 @@
                 fetch('home')
                     .then(r => r.json())
                     .then(json => {
-                        console.log(json);
+                        console.log(json['randomBooksFromGenre'][0]);
                         this.post = json;
                         this.loading = false;
                         this.loadImageData()
