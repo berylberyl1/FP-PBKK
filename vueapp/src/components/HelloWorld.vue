@@ -55,7 +55,7 @@
         methods: {
             loadImageData() {
                 this.post['randomBooksFromGenre'][0]['books'].forEach((book) => {
-                    this.imageDictSrc[book['id']] = `data:image/jpg;base64,${book['thumbnail']}`;
+                    this.imageDictSrc[book['id']] = `data:image/png;base64,${book['thumbnail']}`;
                 })
             },
             fetchData() {
@@ -65,7 +65,7 @@
                 fetch('home')
                     .then(r => r.json())
                     .then(json => {
-                        console.log(json['randomBooksFromGenre'][0]);
+                        console.log(json);
                         this.post = json;
                         this.loading = false;
                         this.loadImageData()

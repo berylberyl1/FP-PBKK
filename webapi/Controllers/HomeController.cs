@@ -21,7 +21,7 @@ public class HomeController : ControllerBase {
         var booksFromGenreResults = new List<RandomBooksFromGenreDto>();
         foreach(GenreDto genreDto in genreResult) {
             if(genreDto.Genre == null) continue;
-            booksFromGenreResults.Add(booksFromGenreQuery.Execute(genreDto.Genre, 5));
+            booksFromGenreResults.Add(booksFromGenreQuery.Execute(genreDto.Genre, 9));
         }
         var data = new { Genre = genreResult, RandomBooksFromGenre = booksFromGenreResults };
         return Ok(data);
