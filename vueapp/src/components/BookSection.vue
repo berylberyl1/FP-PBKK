@@ -4,7 +4,7 @@
             <v-col cols="3" class="pb-12">
                 <v-card-title class="font-weight-bold text-start pl-0 pr-0 pt-0">{{ genre }}</v-card-title>
                 <v-card-text class="text-start pl-0 pr-0">
-                    Discover the hottest best sellers that everyone is talking about. 
+                    {{ genreDescription }} 
                 </v-card-text>
                 <v-btn rounded="lg" style="float: left;" color="primary">
                     More
@@ -23,7 +23,7 @@
                             v-for="book in books"
                             :key="book.id"
                         >
-                            <BookItem :title="book.title" :author="book.author" class="mx-5" :thumbnail="book.thumbnail" />
+                            <BookItem :title="book.title" :author="book.author" class="mx-5" :thumbnail="book.thumbnail" :thumbnail-mime="book.mimeType" />
                         </v-slide-group-item>
                     </v-slide-group>
                 </v-sheet>
@@ -45,6 +45,10 @@ export default defineComponent({
         genre: {
             type: String,
             required: true
+        },
+        genreDescription: {
+            type: String,
+            required: false
         },
         books: {
             type: Array,

@@ -15,10 +15,10 @@
     <v-card-text>
         <v-window v-model="tab">
             <v-window-item value="all">
-                <BookSection v-for="genre in genres" :key="genre.genre" class="mb-15" :books="bookSection[genre.genre]" :genre="genre.genre" />
+                <BookSection v-for="genre in genres" :key="genre.genre" class="mb-15" :books="bookSection[genre.genre]" :genre="genre.genre" :genre-description="genre.description" />
             </v-window-item>
             <v-window-item v-for="genre in genres" :key="genre.genre" :value="genre.genre">
-                <BookSection class="mb-15" :books="bookSection[genre.genre]" :genre="genre.genre" />
+                <BookSection class="mb-15" :books="bookSection[genre.genre]" :genre="genre.genre" :genre-description="genre.description" />
             </v-window-item>
         </v-window>
     </v-card-text>

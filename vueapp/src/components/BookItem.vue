@@ -39,12 +39,16 @@ export default defineComponent({
         thumbnail: {
             type: String,
             required: true
+        },
+        thumbnailMime: {
+            type: String,
+            required: true
         }
     },
     methods: {
         loadThumbnailData() {
             console.log(this.thumbnail);
-            this.thumbnailSrc = `data:image/jpg;base64,${this.thumbnail}`;
+            this.thumbnailSrc = `data:${this.thumbnailMime};base64,${this.thumbnail}`;
         },
     },
 });

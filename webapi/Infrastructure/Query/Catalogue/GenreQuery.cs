@@ -14,7 +14,7 @@ public class GenreQuery : IGenreQuery {
     public List<GenreDto> Execute() {
         List<GenreDto> genres = new List<GenreDto>();
         foreach(Genre genre in repository.GetAll()) {
-            genres.Add(new GenreDto() { Genre = genre.Name });
+            genres.Add(new GenreDto() { Genre = genre.Name, Description = genre.Description });
         }
 
         return genres;

@@ -1,5 +1,6 @@
 namespace webapi.Infrastructure.Query.Catalogue;
 
+using HeyRed.Mime;
 using webapi.Application.Query.Catalogue.RandomBooksFromGenre;
 using webapi.Domain.Catalogue.Repository;
 using webapi.Infrastructure.Database.Model;
@@ -27,11 +28,14 @@ public class RandomBooksFromGenreQuery : IRandomBooksFromGenreQuery {
             }
             logger.LogInformation(path);
             var thumbnail = File.ReadAllBytes(path);
+            string mimeType = MimeTypesMap.GetMimeType(path);
+            logger.LogInformation(mimeType);
             BooksDto booksDto = new BooksDto() {
                 Id = book.Id,
                 Title = book.Title,
                 Author = book.Author,
-                Thumbnail = thumbnail
+                Thumbnail = thumbnail,
+                MimeType = mimeType
             };
             booksDtos.Add(booksDto);
         }

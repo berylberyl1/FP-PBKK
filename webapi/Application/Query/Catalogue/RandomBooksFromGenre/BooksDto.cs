@@ -5,4 +5,5 @@ public class BooksDto {
     public string? Title { get; init; }
     public string? Author { get; init; }
     public byte[]? Thumbnail { get; init; }
+    public string? MimeType { get; init; }
 }
