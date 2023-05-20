@@ -1,19 +1,14 @@
 <template>
 <v-app :style="cssProps">
   <v-main>
-    <PageHome />
+    <router-view></router-view>
   </v-main>
 </v-app>
 </template>
 
 <script>
-import PageHome from '@/components/PageHome.vue';
-
 export default {
   name: 'App',
-  components: {
-    PageHome,
-  },
   computed: {
     cssProps () {
         var themeColors = {}
