@@ -2,17 +2,9 @@
 <NavigationBar />
 <v-card class="mt-4 mx-auto pa-4" max-width="500" rounded="lg" color="white">
     <v-card-title>
-        Sign up and start reading
+        Log in to your BookBook account
     </v-card-title>
-    <v-container class="pb-0">
-      <v-text-field
-        v-model="fullName"
-        :rules="[rules.required]"
-        color="primary"
-        label="Full name"
-        variant="underlined"
-      ></v-text-field>
-
+    <v-container>
       <v-text-field
         v-model="email"
         :rules="[rules.required]"
@@ -24,36 +16,34 @@
       <v-text-field
         v-model="password"
         :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        :rules="[rules.required, rules.min]"
+        :rules="[rules.required]"
         :type="showPassword ? 'text' : 'password'"
         color="primary"
         label="Password"
-        hint="At least 8 characters"
         placeholder="Enter your password"
         variant="underlined"
         @click:append="showPassword = !showPassword"
       ></v-text-field>
 
-      <v-checkbox
-        v-model="terms"
-        color="black"
-        label="I agree to site terms and conditions"
-        class="pb-0"
-      ></v-checkbox>
-
     </v-container>
 
-    <v-card-actions class="mt-0">
+    <v-card-actions>
       <v-spacer></v-spacer>
 
       <v-btn class="px-auto text-none pa-1 px-4" variant="flat" color="primary">
-        Sign up
+        Log in
 
         <v-icon icon="mdi-chevron-right" end></v-icon>
       </v-btn>
 
       <v-spacer></v-spacer>
     </v-card-actions>
+
+    <p class="mt-3 text-subtitle-1">or <router-link to="/login">Forgot Password</router-link></p>
+
+    <v-divider class="my-3"></v-divider>
+
+    <p class="text-subtitle-2">Don't have an account? <router-link to="/signup">Sign up</router-link></p>
 </v-card>
 </template>
 
@@ -62,20 +52,17 @@ import { defineComponent } from 'vue';
 import NavigationBar from '@/components/NavigationBar.vue'
 
 export default defineComponent({
-    name: 'PageSignUp',
+    name: 'PageLogIn',
     components: {
         NavigationBar,
     },
     data: () => ({
-      fullName: null,
       email: null,
       password: null,
       showPassword: false,
       rules: {
         required: value => !!value || 'Required.',
-        min: v => v.length >= 8 || 'Min 8 characters',
       },
-      terms: false,
     }),
 })
 </script>

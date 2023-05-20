@@ -9,6 +9,10 @@ const routes = [
         path: '/signup',
         component: () => import('@/components/PageSignUp.vue')
     },
+    {
+        path: '/login',
+        component: () => import('@/components/PageLogIn.vue')
+    },
 ];
 
 const router = createRouter({

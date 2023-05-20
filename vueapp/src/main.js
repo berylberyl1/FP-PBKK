@@ -22,6 +22,7 @@ const lightTheme = {
         success: '#4CAF50',
         warning: '#FB8C00',
         white: '#F8F2EE',
+        black: '#282726'
     },
 }
 
