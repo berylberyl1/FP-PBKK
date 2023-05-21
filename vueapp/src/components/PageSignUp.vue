@@ -4,56 +4,58 @@
     <v-card-title>
         Sign up and start reading
     </v-card-title>
-    <v-container class="pb-0">
-      <v-text-field
-        v-model="fullName"
-        :rules="[rules.required]"
-        color="primary"
-        label="Full name"
-        variant="underlined"
-      ></v-text-field>
+    <v-form validate-on="submit lazy" @submit.prevent="submit">
+      <v-container class="pb-0">
+        <v-text-field
+          v-model="fullName"
+          :rules="[rules.required]"
+          color="primary"
+          label="Full name"
+          variant="underlined"
+        ></v-text-field>
 
-      <v-text-field
-        v-model="email"
-        :rules="[rules.required]"
-        color="primary"
-        label="Email"
-        variant="underlined"
-      ></v-text-field>
+        <v-text-field
+          v-model="email"
+          :rules="[rules.required]"
+          color="primary"
+          label="Email"
+          variant="underlined"
+        ></v-text-field>
 
-      <v-text-field
-        v-model="password"
-        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        :rules="[rules.required, rules.min]"
-        :type="showPassword ? 'text' : 'password'"
-        color="primary"
-        label="Password"
-        hint="At least 8 characters"
-        placeholder="Enter your password"
-        variant="underlined"
-        @click:append="showPassword = !showPassword"
-      ></v-text-field>
+        <v-text-field
+          v-model="password"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="[rules.required, rules.min]"
+          :type="showPassword ? 'text' : 'password'"
+          color="primary"
+          label="Password"
+          hint="At least 8 characters"
+          placeholder="Enter your password"
+          variant="underlined"
+          @click:append="showPassword = !showPassword"
+        ></v-text-field>
 
-      <v-checkbox
-        v-model="terms"
-        color="black"
-        label="I agree to site terms and conditions"
-        class="pb-0"
-      ></v-checkbox>
+        <v-checkbox
+          v-model="terms"
+          color="black"
+          label="I agree to site terms and conditions"
+          class="pb-0"
+        ></v-checkbox>
 
-    </v-container>
+      </v-container>
 
-    <v-card-actions class="mt-0">
-      <v-spacer></v-spacer>
+      <v-card-actions class="mt-0">
+        <v-spacer></v-spacer>
 
-      <v-btn class="px-auto text-none pa-1 px-4" variant="flat" color="primary">
-        Sign up
+        <v-btn :loading="loading" type="submit" class="px-auto text-none pa-1 px-4" variant="flat" color="primary">
+          Sign up
 
-        <v-icon icon="mdi-chevron-right" end></v-icon>
-      </v-btn>
+          <v-icon icon="mdi-chevron-right" end></v-icon>
+        </v-btn>
 
-      <v-spacer></v-spacer>
-    </v-card-actions>
+        <v-spacer></v-spacer>
+      </v-card-actions>
+    </v-form>
 </v-card>
 </template>
 
@@ -67,6 +69,7 @@ export default defineComponent({
         NavigationBar,
     },
     data: () => ({
+      loading: false,
       fullName: null,
       email: null,
       password: null,
@@ -77,5 +80,14 @@ export default defineComponent({
       },
       terms: false,
     }),
+    methods: {
+      async submit (event) {
+        this.loading = true;
+
+        await event
+
+        this.loading = false;
+      }
+    },
 })
 </script>

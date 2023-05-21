@@ -1,13 +1,13 @@
 namespace webapi.Infrastructure.Query.Catalogue;
 
 using webapi.Application.Query.Catalogue.Genre;
+using webapi.Domain.Catalogue.Model;
 using webapi.Domain.Catalogue.Repository;
-using webapi.Infrastructure.Database.Model;
 
 public class GenreQuery : IGenreQuery {
-    IRepository<Genre> repository;
+    IGenreRepository repository;
 
-    public GenreQuery(IRepository<Genre> repository) {
+    public GenreQuery(IGenreRepository repository) {
         this.repository = repository;
     }
 

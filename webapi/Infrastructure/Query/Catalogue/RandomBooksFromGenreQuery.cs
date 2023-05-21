@@ -2,15 +2,15 @@ namespace webapi.Infrastructure.Query.Catalogue;
 
 using HeyRed.Mime;
 using webapi.Application.Query.Catalogue.RandomBooksFromGenre;
+using webapi.Domain.Catalogue.Model;
 using webapi.Domain.Catalogue.Repository;
-using webapi.Infrastructure.Database.Model;
 
 public class RandomBooksFromGenreQuery : IRandomBooksFromGenreQuery {
-    IRepository<Book> repository;
+    IBookRepository repository;
     IWebHostEnvironment environment;
     ILogger<RandomBooksFromGenreQuery> logger;
 
-    public RandomBooksFromGenreQuery(IRepository<Book> repository, IWebHostEnvironment environment, ILogger<RandomBooksFromGenreQuery> logger) {
+    public RandomBooksFromGenreQuery(IBookRepository repository, IWebHostEnvironment environment, ILogger<RandomBooksFromGenreQuery> logger) {
         this.repository = repository;
         this.environment = environment;
         this.logger = logger;

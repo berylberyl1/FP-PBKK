@@ -6,7 +6,10 @@ using webapi.Infrastructure.Database.Model;
 using webapi.Domain.Catalogue.Repository;
 using webapi.Infrastructure.Database.EntityFramework;
 
-public class BookRepository : IRepository<Book> {
+using Book = webapi.Domain.Catalogue.Model.Book;
+using BookModel = webapi.Infrastructure.Database.Model.Book;
+
+public class BookRepository : IBookRepository {
     readonly ApplicationDbContext db;
 
     public BookRepository(ApplicationDbContext db) {
@@ -14,30 +17,53 @@ public class BookRepository : IRepository<Book> {
     }
 
     public void Add(Book entity) {
-        if(db.Books.Contains(entity)) return;
+        // BookModel bookModel = new BookModel() {
 
-        db.Books.Add(entity);
-        db.SaveChanges();
+        // }
+        // if(db.Books.Contains()) return;
+
+        // db.Books.Add(entity);
+        // db.SaveChanges();
     }
 
     public void Delete(Book entity) {
-        if (!db.Books.Contains(entity)) return;
+        // if (!db.Books.Contains(entity)) return;
 
-        db.Books.Remove(entity);
-        db.SaveChanges();
+        // db.Books.Remove(entity);
+        // db.SaveChanges();
     }
 
     public IEnumerable<Book> GetAll() {
-        return db.Books.ToList();
+        foreach(BookModel bookModel in db.Books.ToList()) {
+            Book? book = GetById(bookModel.Id);
+            if(book == null) continue;
+
+            yield return book;
+        }
     }
 
     public Book? GetById(int id) {
-        Book? book = db.Books.Find(id);
+        BookModel? bookModel = db.Books.Find(id);
+
+        if(bookModel == null) return null;
+
+        List<string> genres = new List<string>();
+        foreach(Genre genre in bookModel.Genres) {
+            if(genre.Name == null) continue;
+
+            genres.Add(genre.Name);
+        }
         
-        return book;
+        return new Book() {
+            Id = bookModel.Id,
+            Title = bookModel.Title,
+            Author = bookModel.Author,
+            ThumbnailPath = bookModel.ThumbnailPath,
+            Genres = genres
+        };
     }
 
     public void Update(Book entity) {
-        db.Books.Update(entity);
+        // db.Books.Update(entity);
     }
 }
