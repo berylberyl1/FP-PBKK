@@ -47,7 +47,6 @@ export default defineComponent({
     },
     methods: {
         loadThumbnailData() {
-            console.log(this.thumbnail);
             this.thumbnailSrc = `data:${this.thumbnailMime};base64,${this.thumbnail}`;
         },
     },

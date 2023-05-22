@@ -12,16 +12,19 @@
         </v-col>
         <v-col cols="10" class="d-flex justify-end align-center">
           <SearchBar />
-          <router-link to="/login" style="color: black;">
-            <v-btn rounded="lg" class="text-none mr-2" variant="outlined">
-              Log in
-            </v-btn>
-          </router-link>
-          <router-link to="/signup">
-            <v-btn rounded="lg" class="text-none" color="black" variant="flat">
-              Sign up
-            </v-btn>
-          </router-link>
+          <NavigationAccount v-if="hasValidToken" />
+          <div v-else>
+            <router-link to="/login" style="color: black;">
+              <v-btn rounded="lg" class="text-none mr-2" variant="outlined">
+                Log in
+              </v-btn>
+            </router-link>
+            <router-link to="/signup">
+              <v-btn rounded="lg" class="text-none" color="black" variant="flat">
+                Sign up
+              </v-btn>
+            </router-link>
+          </div>
         </v-col>
       </v-row> 
     </GeneralContainer>
@@ -31,12 +34,34 @@
 <script lang="js">
 import GeneralContainer from '@/components/GeneralContainer.vue';
 import SearchBar from '@/components/SearchBar.vue';
+import NavigationAccount from '@/components/NavigationAccount.vue';
+import jwtDecode from 'jwt-decode';
 
 export default {
   name: 'NavigationBar',
   components: {
     GeneralContainer,
-    SearchBar
-  }
+    SearchBar,
+    NavigationAccount
+  },
+  computed: {
+    hasValidToken() {
+      const token = localStorage.getItem('token');
+      let tokenIsValid = true;
+    
+      if(token == null) {
+        tokenIsValid = false;
+      }
+
+      const user = jwtDecode(token);
+
+      if(user == null || user.exp < Date.now() / 1000) {
+        localStorage.clear();
+        tokenIsValid = false;
+      }
+
+      return tokenIsValid;
+    }
+  },
 };
 </script>

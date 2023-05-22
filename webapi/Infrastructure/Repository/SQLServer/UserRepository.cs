@@ -42,6 +42,22 @@ public class UserRepository : IUserRepository {
         }
     }
 
+    public User? GetFirst(string email, string password) {
+        var query = db.Users.Where(user => 
+            user.Email == email && user.Password == password
+        );
+
+        foreach(UserModel userModel in query) {
+            return new User() {
+                Id = userModel.Id,
+                FullName = userModel.FullName,
+                Email = userModel.Email,
+                Password = userModel.Password
+            };
+        }
+        return null;
+    }
+
     public User? GetById(int id) {
         UserModel? userModel = db.Users.Find(id);
 

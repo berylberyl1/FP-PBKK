@@ -17,6 +17,7 @@
         <v-text-field
           v-model="email"
           :rules="[rules.required]"
+          :error-messages="emailError"
           color="primary"
           label="Email"
           variant="underlined"
@@ -74,6 +75,7 @@ export default defineComponent({
       email: null,
       password: null,
       showPassword: false,
+      emailError: '',
       rules: {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
@@ -81,12 +83,39 @@ export default defineComponent({
       terms: false,
     }),
     methods: {
-      async submit (event) {
+      async submit () {
         this.loading = true;
 
-        await event
+        const formData = {
+          fullName: this.fullName,
+          email: this.email,
+          password: this.password
+        };
 
-        this.loading = false;
+        console.log(formData);
+
+        await fetch('auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        })
+        .then(response => {
+          this.loading = false;
+          if (response.ok) {
+            this.$router.push('/');
+          } else {
+            this.emailError = "Email already exist."
+            throw new Error('Request failed');
+          }
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
       }
     },
 })

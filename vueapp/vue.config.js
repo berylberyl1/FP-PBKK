@@ -29,6 +29,9 @@ module.exports = {
             },
             '^/home': {
                 target: 'http://localhost:5050'
+            },
+            '^/auth': {
+                target: 'http://localhost:5050'
             }
         },
         port: 5002
