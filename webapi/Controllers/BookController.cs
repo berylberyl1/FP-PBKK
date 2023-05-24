@@ -1,5 +1,6 @@
 namespace webapi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Domain.Catalogue.Repository;
 using webapi.Infrastructure.Database.Model;
@@ -13,11 +14,13 @@ public class BookController : ControllerBase {
         this.repository = repository;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public IEnumerable<Book> Get() {
         return repository.GetAll().ToArray();
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public Book? Get(int id) {
         return repository.GetById(id);

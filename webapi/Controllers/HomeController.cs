@@ -3,6 +3,7 @@ namespace webapi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Application.Query.Catalogue.RandomBooksFromGenre;
 using webapi.Application.Query.Catalogue.Genre;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("[controller]")]
@@ -15,6 +16,7 @@ public class HomeController : ControllerBase {
         this.booksFromGenreQuery = booksFromGenreQuery;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public IActionResult Get() {
         var genreResult = genreQuery.Execute();

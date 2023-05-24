@@ -1,5 +1,6 @@
 namespace webapi.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Application.Command.CreateUserAccount;
 using webapi.Application.Command.LogIn;
@@ -20,6 +21,7 @@ public class AuthenticationController : ControllerBase {
         this.logInCommand = new LogInCommand(logger, configuration, repository);
     }
 
+    [AllowAnonymous]
     [HttpPost("SignUp")]
     public IActionResult SignUp([FromBody] RegistrationRequestDto request) {
         try {
@@ -34,6 +36,7 @@ public class AuthenticationController : ControllerBase {
         return Ok();
     }
 
+    [AllowAnonymous]
     [HttpPost("LogIn")]
     public IActionResult LogIn([FromBody] LogInDto request) {
         string token = "";

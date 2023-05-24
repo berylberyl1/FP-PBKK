@@ -12,6 +12,7 @@
         </v-col>
         <v-col cols="10" class="d-flex justify-end align-center">
           <SearchBar />
+          <!-- <NavigationAccount /> -->
           <NavigationAccount v-if="hasValidToken" />
           <div v-else>
             <router-link to="/login" style="color: black;">
@@ -52,12 +53,12 @@ export default {
       if(token == null) {
         tokenIsValid = false;
       }
-
-      const user = jwtDecode(token);
-
-      if(user == null || user.exp < Date.now() / 1000) {
-        localStorage.clear();
-        tokenIsValid = false;
+      else {
+        const user = jwtDecode(token);
+        if(user == null || user.exp < Date.now() / 1000) {
+          localStorage.clear();
+          tokenIsValid = false;
+        }
       }
 
       return tokenIsValid;
