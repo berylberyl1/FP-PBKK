@@ -7,14 +7,14 @@
         <div v-if="post" class="content">
             <NavigationBar />
             <GeneralContainer>
-            <v-row>
-                <v-col cols="2" class="pl-0">
-                <SideBar />
-                </v-col>
-                <v-col cols="10">
-                <BookContainer :genres="post['genre']" :books="post['randomBooksFromGenre']" />
-                </v-col>
-            </v-row>
+                <v-row>
+                    <v-col cols="2" class="pl-0">
+                        <SideBar />
+                    </v-col>
+                    <v-col cols="10">
+                        <BookDetailContainer />
+                    </v-col>
+                </v-row>
             </GeneralContainer>
         </div>
     </div>
@@ -24,15 +24,16 @@
     import { defineComponent } from 'vue';
     import NavigationBar from '@/components/NavigationBar.vue'
     import SideBar from '@/components/SideBar.vue'
-    import BookContainer from '@/components/BookContainer.vue'
     import GeneralContainer from '@/components/GeneralContainer.vue'
+    import BookDetailContainer from '@/components/BookDetailContainer.vue'
 
     export default defineComponent({
+        name: 'PageBookDetail',
         components: {
             NavigationBar,
             SideBar,
-            BookContainer,
             GeneralContainer,
+            BookDetailContainer
         },
         data() {
             return {
@@ -48,16 +49,8 @@
         },
         methods: {
             fetchData() {
-                this.post = null;
-                this.loading = true;
-
-                fetch('api/home')
-                    .then(r => r.json())
-                    .then(json => {
-                        this.post = json;
-                        this.loading = false;
-                        return;
-                    });
+                this.loading = false;
+                this.post = 1;
             }
         },
     });

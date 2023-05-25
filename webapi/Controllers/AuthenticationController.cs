@@ -7,7 +7,7 @@ using webapi.Application.Command.LogIn;
 using webapi.Domain.Account.Repository;
 
 [ApiController]
-[Route("Auth")]
+[Route("api/Auth")]
 public class AuthenticationController : ControllerBase {
     CreateUserAccountCommand createUserCommand;
     LogInCommand logInCommand;

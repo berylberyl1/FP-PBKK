@@ -6,7 +6,7 @@ using webapi.Application.Query.Catalogue.Genre;
 using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class HomeController : ControllerBase {
     IGenreQuery genreQuery;
     IRandomBooksFromGenreQuery booksFromGenreQuery;

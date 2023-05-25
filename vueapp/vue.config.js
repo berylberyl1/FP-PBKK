@@ -24,13 +24,13 @@ module.exports = {
             cert: fs.readFileSync(certFilePath),
         },
         proxy: {
-            '^/book': {
+            '^/api/book': {
                 target: 'http://localhost:5050'
             },
-            '^/home': {
+            '^/api/home': {
                 target: 'http://localhost:5050'
             },
-            '^/auth': {
+            '^/api/auth': {
                 target: 'http://localhost:5050'
             }
         },

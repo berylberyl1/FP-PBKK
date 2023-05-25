@@ -6,7 +6,7 @@ using webapi.Domain.Catalogue.Repository;
 using webapi.Infrastructure.Database.Model;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class BookController : ControllerBase {
     IRepository<Book> repository;
 
