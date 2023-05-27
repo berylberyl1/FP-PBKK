@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webapi.Infrastructure.Database.EntityFramework;
 
@@ -11,9 +12,11 @@ using webapi.Infrastructure.Database.EntityFramework;
 namespace webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230526225010_UpdatePublicationDateToDateTime2")]
+    partial class UpdatePublicationDateToDateTime2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,23 +61,14 @@ namespace webapi.Migrations
                     b.Property<int>("Page")
                         .HasColumnType("int");
 
-                    b.Property<int>("PublicationDay")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PublicationMonth")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PublicationYear")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("PublicationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Series")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SeriesNumber")
                         .HasColumnType("int");
-
-                    b.Property<string>("Summary")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ThumbnailPath")
                         .HasColumnType("nvarchar(max)");

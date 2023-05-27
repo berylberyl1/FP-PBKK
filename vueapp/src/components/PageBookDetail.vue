@@ -12,7 +12,17 @@
                         <SideBar />
                     </v-col>
                     <v-col cols="10">
-                        <BookDetailContainer />
+                        <BookDetailContainer 
+                            :title="post.title"
+                            :author="post.author"
+                            :edition="post.edition"
+                            :publicationDate="post.publicationDate"
+                            :page="post.page"
+                            :summary="post.summary"
+                            :seriesName="post.seriesName"
+                            :seriesNumber="post.seriesNumber"
+                            :imageSrc="post.imageUrl"
+                        />
                     </v-col>
                 </v-row>
             </GeneralContainer>
@@ -49,8 +59,16 @@
         },
         methods: {
             fetchData() {
-                this.loading = false;
-                this.post = 1;
+                this.post = null;
+                this.loading = true;
+                fetch('/api/book/' + this.$route.params.id)
+                    .then(r => r.json())
+                    .then(json => {
+                        console.log(json);
+                        this.post = json;
+                        this.loading = false;
+                        return;
+                    });
             }
         },
     });

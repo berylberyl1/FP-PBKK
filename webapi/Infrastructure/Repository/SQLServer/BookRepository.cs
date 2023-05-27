@@ -3,11 +3,13 @@ namespace webapi.Infrastructure.Repository.SQLServer;
 using System.Collections.Generic;
 using System.Linq;
 using webapi.Infrastructure.Database.Model;
+using webapi.Domain.Catalogue.Model.Book;
 using webapi.Domain.Catalogue.Repository;
 using webapi.Infrastructure.Database.EntityFramework;
 
-using Book = webapi.Domain.Catalogue.Model.Book;
+using Book = webapi.Domain.Catalogue.Model.Book.Book;
 using BookModel = webapi.Infrastructure.Database.Model.Book;
+using System.Globalization;
 
 public class BookRepository : IBookRepository {
     readonly ApplicationDbContext db;
@@ -53,14 +55,30 @@ public class BookRepository : IBookRepository {
 
             genres.Add(genre.Name);
         }
+
+        DateTime publicationDate = new DateTime(
+            bookModel.PublicationYear,
+            DateTime.ParseExact(bookModel.PublicationMonth ?? "January", "MMMM", CultureInfo.CurrentCulture).Month,
+            bookModel.PublicationDay
+        );
+
+        Franchise? franchise = bookModel.Series != null? new Franchise() {
+            Name = bookModel.Series,
+            Number = bookModel.SeriesNumber
+        } : null;
         
-        return new Book() {
-            Id = bookModel.Id,
-            Title = bookModel.Title,
-            Author = bookModel.Author,
-            ThumbnailPath = bookModel.ThumbnailPath,
-            Genres = genres
-        };
+        return new Book(
+            bookModel.Id,
+            bookModel.Title,
+            bookModel.Author,
+            bookModel.Summary,
+            bookModel.ThumbnailPath,
+            bookModel.Page,
+            bookModel.Edition,
+            publicationDate,
+            franchise,
+            genres
+        );
     }
 
     public void Update(Book entity) {

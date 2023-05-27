@@ -1,28 +1,35 @@
 namespace webapi.Controllers;
 
+using HeyRed.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using webapi.Domain.Catalogue.Repository;
-using webapi.Infrastructure.Database.Model;
+using webapi.Application.Query.Catalogue.BookDetail;
 
 [ApiController]
 [Route("api/[controller]")]
 public class BookController : ControllerBase {
-    IRepository<Book> repository;
+    IBookDetailQuery bookDetailQuery;
+    IWebHostEnvironment environment;
 
-    public BookController(IRepository<Book> repository) {
-        this.repository = repository;
-    }
-
-    [AllowAnonymous]
-    [HttpGet]
-    public IEnumerable<Book> Get() {
-        return repository.GetAll().ToArray();
+    public BookController(
+        IBookDetailQuery bookDetailQuery,
+        IWebHostEnvironment environment
+    ) {
+        this.bookDetailQuery = bookDetailQuery;
+        this.environment = environment;
     }
 
     [AllowAnonymous]
     [HttpGet("{id}")]
-    public Book? Get(int id) {
-        return repository.GetById(id);
+    public BookDetailDto Get(int id) {
+        return bookDetailQuery.Execute(id);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("Image/{filename}")]
+    public IActionResult Get(string filename) {
+        var imagePath = Path.Combine(environment.WebRootPath, "Images", filename);;
+        var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+        return File(imageBytes, MimeTypesMap.GetMimeType(imagePath));
     }
 }

@@ -43,11 +43,11 @@ public class GenreRepository : IGenreRepository {
 
         if(genreModel == null) return null;
         
-        return new Genre() {
-            Id = genreModel.Id,
-            Name = genreModel.Name,
-            Description = genreModel.Description
-        };
+        return new Genre(
+            genreModel.Id,
+            genreModel.Name,
+            genreModel.Description
+        );
     }
 
     public void Update(Genre entity) {

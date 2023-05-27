@@ -5,33 +5,27 @@
                 <v-col cols="8">
                     <div class="d-flex mb-3">
                         <div class="rounded-xl" style="width: 220px; height: 313px; overflow: hidden;">
-                        <v-img :src="require('@/assets/images/book-thumbnail.png')" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
+                        <v-img :src="this.imageSrc" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
                         </div>
                         <div class="text-left ml-8">
-                            <p class="text-h4 mb-n2">Title</p>
-                            <p class="text-h6 mb-2">by Author</p>
-                            <p class="text-body-2" style="color: gray">Hardcover</p>
+                            <p class="text-h4 mb-n2"> {{ title }} </p>
+                            <p class="text-h6 mb-2"> {{ author }}</p>
+                            <p class="text-body-2" style="color: gray">{{ edition }}</p>
                             <table class="text-body-1 mb-3">
                                 <tbody>
-                                <tr>
-                                    <td>ISBN</td>
-                                    <td>: 0000000001</td>
-                                </tr>
-                                <tr>
-                                    <td>Publisher</td>
-                                    <td>: Publisher Name</td>
+                                <tr v-if="seriesName">
+                                    <td>Series</td>
+                                    <td>: {{ seriesName }}
+                                        <span v-if="seriesNumber"> (#{{ seriesNumber }})</span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Publication Date</td>
-                                    <td>: DD/MM/YYYY</td>
+                                    <td>: {{ publicationDate }}</td>
                                 </tr>
                                 <tr>
                                     <td>Pages</td>
-                                    <td>: 100</td>
-                                </tr>
-                                <tr>
-                                    <td>Product Dimension</td>
-                                    <td>: w x h x d</td>
+                                    <td>: {{ page }}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -44,15 +38,7 @@
                     </div>
                     <p class="text-h6 text-left mb-2">Overview</p>
                     <p class="text-body-1 text-left">
-                        Lorem ipsum dolor sit amet consectetur. Risus rutrum risus est amet. Massa tincidunt 
-                        a est nisi non et nisl. Scelerisque quis nisl cras ut nisl. Gravida auctor aliquam 
-                        arcu sapien proin. Amet aliquam quam fringilla elit malesuada vestibulum nunc nec leo. 
-                        Nulla enim commodo urna feugiat nullam arcu aenean. Pellentesque aliquet amet mus ipsum 
-                        bibendum sed. Cursus morbi mauris nulla eget viverra volutpat purus facilisis. Mattis 
-                        ac orci vitae ut. Mus et urna aliquet vitae orci iaculis sed viverra. Tempor sed 
-                        sagittis ligula sollicitudin vulputate quam tellus felis risus. Lectus aliquam enim 
-                        egestas massa duis. Integer dui eget bibendum eu id. Sit interdum facilisi eu integer lobortis 
-                        enim. Mauris sed aliquam habitant lobortis.
+                        {{ summary }}
                     </p>
                 </v-col>
                 <v-col class="d-flex flex-column align-center">
@@ -72,7 +58,38 @@
         name: 'BookDetailContainer',
         components: {
             BookItem
-        }
+        },
+        props: {
+            title: {
+                type: String,
+                required: true
+            },
+            author: {
+                type: String,
+                required: true
+            },
+            publicationDate: {
+                type: String,
+            },
+            page: {
+                type: String,
+            },
+            summary: {
+                type: String,
+            },
+            edition: {
+                type: String,
+            },
+            seriesName: {
+                type: String
+            },
+            seriesNumber: {
+                type: String
+            },
+            imageSrc: {
+                type: String
+            }
+        },
     });
     </script>
     
