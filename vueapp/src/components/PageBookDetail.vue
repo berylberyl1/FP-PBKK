@@ -13,15 +13,16 @@
                     </v-col>
                     <v-col cols="10">
                         <BookDetailContainer 
-                            :title="post.title"
-                            :author="post.author"
-                            :edition="post.edition"
-                            :publicationDate="post.publicationDate"
-                            :page="post.page"
-                            :summary="post.summary"
-                            :seriesName="post.seriesName"
-                            :seriesNumber="post.seriesNumber"
-                            :imageSrc="post.imageUrl"
+                            :title="post.book.title"
+                            :author="post.book.author"
+                            :edition="post.book.edition"
+                            :publicationDate="post.book.publicationDate"
+                            :page="post.book.page"
+                            :summary="post.book.summary"
+                            :seriesName="post.book.seriesName"
+                            :seriesNumber="post.book.seriesNumber"
+                            :imageSrc="post.book.imageUrl"
+                            :recommendation="post.recommendation.books"
                         />
                     </v-col>
                 </v-row>

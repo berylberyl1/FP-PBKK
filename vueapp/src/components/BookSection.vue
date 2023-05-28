@@ -23,7 +23,12 @@
                             v-for="book in books"
                             :key="book.id"
                         >
-                            <BookItem :title="book.title" :author="book.author" class="mx-5" :thumbnailUrl="book.thumbnailUrl" :thumbnail="book.thumbnail" :thumbnail-mime="book.mimeType" />
+                            <BookItem
+                                :id="book.id"
+                                :title="book.title" 
+                                :author="book.author" class="mx-5" 
+                                :thumbnailUrl="book.thumbnailUrl" 
+                            />
                         </v-slide-group-item>
                     </v-slide-group>
                 </v-sheet>

@@ -43,7 +43,13 @@
                 </v-col>
                 <v-col class="d-flex flex-column align-center">
                     <p class="text-body-1 mb-2">You May Also Like</p>
-                    <BookItem class="mb-3" v-for="i in 3" :key="i" author="author" title="title" />
+                    <BookItem 
+                        class="mb-3" v-for="book in recommendation" :key="book.id" 
+                        :id="book.id"
+                        :author="book.author" 
+                        :title="book.title" 
+                        :thumbnailUrl="book.thumbnailUrl"
+                    />
                 </v-col>
             </v-row>
         </v-card-text>
@@ -88,6 +94,9 @@
             },
             imageSrc: {
                 type: String
+            },
+            recommendation: {
+                type: Array
             }
         },
     });

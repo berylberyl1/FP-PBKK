@@ -10,4 +10,5 @@ public class BookDetailDto {
     public int Page { get; init; }
     public string? Summary { get; init; }
     public string? ImageUrl { get; init; }
+    public List<string>? Genre { get; init; }
 }

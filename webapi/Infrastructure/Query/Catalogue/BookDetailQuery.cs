@@ -12,9 +12,7 @@ public class BookDetailQuery : IBookDetailQuery {
     }
 
     public BookDetailDto Execute(int id) {
-        Book? book = repository.GetById(id);
-
-        if(book == null) throw new ApplicationException($"Book with id: {id} doesn't exist.");
+        Book book = repository.GetById(id);
 
         return new BookDetailDto {
             Title = book.Title,
@@ -25,7 +23,8 @@ public class BookDetailQuery : IBookDetailQuery {
             SeriesNumber = book.Franchise?.Number ?? 0,
             Page = book.Page,
             ImageUrl = "/api/book/image/" + book.ThumbnailPath?.Split('\\')[1],
-            Summary = book.Summary
+            Summary = book.Summary,
+            Genre = book.Genres
         };
     }
 }

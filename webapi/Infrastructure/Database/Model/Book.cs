@@ -2,6 +2,8 @@ namespace webapi.Infrastructure.Database.Model;
 
 using System.ComponentModel.DataAnnotations;
 
+using Microsoft.EntityFrameworkCore;
+
 public class Book {
     [Key] public int Id { get; set; }
     [Required] public string? Title { get; set; }

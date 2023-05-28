@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using webapi.Application.Query.Catalogue.BookDetail;
+using webapi.Application.Query.Catalogue.BookRecommendation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,9 +29,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 builder.Configuration["Jwt:Key"] ?? ""))
         };
     });
+
 builder.Services.AddTransient<IRandomBooksFromGenreQuery, RandomBooksFromGenreQuery>();
 builder.Services.AddTransient<IGenreQuery, GenreQuery>();
 builder.Services.AddTransient<IBookDetailQuery, BookDetailQuery>();
+builder.Services.AddTransient<IBookRecommendationQuery, BookRecommendationQuery>();
+
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();

@@ -6,10 +6,11 @@ using webapi.Infrastructure.Database.Model;
 using webapi.Domain.Catalogue.Model.Book;
 using webapi.Domain.Catalogue.Repository;
 using webapi.Infrastructure.Database.EntityFramework;
+using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 
 using Book = webapi.Domain.Catalogue.Model.Book.Book;
 using BookModel = webapi.Infrastructure.Database.Model.Book;
-using System.Globalization;
 
 public class BookRepository : IBookRepository {
     readonly ApplicationDbContext db;
@@ -44,10 +45,13 @@ public class BookRepository : IBookRepository {
         }
     }
 
-    public Book? GetById(int id) {
-        BookModel? bookModel = db.Books.Find(id);
+    public Book GetById(int id) {
+       
 
-        if(bookModel == null) return null;
+        //BookModel? bookModel = db.Books.Find(id);
+        BookModel? bookModel =  db.Books.Include(b => b.Genres).Where(b => b.Id == id).FirstOrDefault();
+
+        if(bookModel == null) throw new ApplicationException($"Book with id: {id} doesn't exist.");
 
         List<string> genres = new List<string>();
         foreach(Genre genre in bookModel.Genres) {
@@ -61,6 +65,9 @@ public class BookRepository : IBookRepository {
             DateTime.ParseExact(bookModel.PublicationMonth ?? "January", "MMMM", CultureInfo.CurrentCulture).Month,
             bookModel.PublicationDay
         );
+
+        if (bookModel.Title == null) throw new ApplicationException($"Book with id: {id} doesn't have title.");
+        if (bookModel.Author == null) throw new ApplicationException($"Book with id: {id} doesn't have author.");
 
         Franchise? franchise = bookModel.Series != null? new Franchise() {
             Name = bookModel.Series,

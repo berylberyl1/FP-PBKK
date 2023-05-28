@@ -2,27 +2,27 @@
 
 public class Book {
     public int Id { get; private init; }
-    public string? Title { get; private set; }
-    public string? Author { get; private set; }
+    public string Title { get; private set; }
+    public string Author { get; private set; }
     public string? Summary { get; private set; }
     public string? ThumbnailPath { get; private set; }
     public int Page { get; private set; }
     public string? Edition { get; private set; }
     public DateTime PublicationDate { get; private set; }
     public Franchise? Franchise { get; set; }
-    public List<string>? Genres { get; private set; }
+    public List<string> Genres { get; private set; }
 
     public Book(
         int id,
-        string? title,
-        string? author,
+        string title,
+        string author,
         string? summary,
         string? thumbnailPath,
         int page,
         string? edition,
         DateTime publicationDate,
         Franchise? franchise,
-        List<string>? genres
+        List<string> genres
     ) {
         Id = id;
         Title = title;
