@@ -1,7 +1,7 @@
 <template>
     <div class="post">
         <div v-if="loading" class="loading">
-            Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationvue">https://aka.ms/jspsintegrationvue</a> for more details.
+            <LoadingBar />
         </div>
 
         <div v-if="post" class="content">
@@ -22,6 +22,7 @@
 
 <script lang="js">
     import { defineComponent } from 'vue';
+    import LoadingBar from '@/components/LoadingBar.vue'
     import NavigationBar from '@/components/NavigationBar.vue'
     import SideBar from '@/components/SideBar.vue'
     import BookContainer from '@/components/BookContainer.vue'
@@ -29,6 +30,7 @@
 
     export default defineComponent({
         components: {
+            LoadingBar,
             NavigationBar,
             SideBar,
             BookContainer,
@@ -62,3 +64,4 @@
         },
     });
 </script>
+
