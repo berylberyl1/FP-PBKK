@@ -10,6 +10,10 @@ public class BookFinder {
         this.bookRepository = bookRepository;
     }
 
+    public IEnumerable<Book> RandomByGenre(string genre, int limit) {
+        return RandomByGenre(-1, genre, limit);
+    }
+
     public IEnumerable<Book> RandomByGenre(int id, string genre, int limit) {
         Random random = new Random();
         List<Book> books = ByGenre(id, genre).ToList();
@@ -28,8 +32,14 @@ public class BookFinder {
     }
 
     public IEnumerable<Book> ByGenre(int id, string genre) {
-        foreach(Book book in bookRepository.GetAll()) {
+        foreach(Book book in ByGenre(genre)) {
             if (book.Id == id) continue;
+            yield return book;
+        }
+    }
+
+    public IEnumerable<Book> ByGenre(string genre) {
+        foreach(Book book in bookRepository.GetAll()) {
             if (book.Genres.Contains(genre)) {
                 yield return book;
             }

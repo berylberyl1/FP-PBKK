@@ -4,6 +4,7 @@ using HeyRed.Mime;
 using webapi.Application.Query.Catalogue.RandomBooksFromGenre;
 using webapi.Domain.Catalogue.Model.Book;
 using webapi.Domain.Catalogue.Repository;
+using webapi.Domain.Catalogue.Service;
 
 public class RandomBooksFromGenreQuery : IRandomBooksFromGenreQuery {
     IBookRepository repository;
@@ -20,8 +21,10 @@ public class RandomBooksFromGenreQuery : IRandomBooksFromGenreQuery {
         logger.LogInformation(environment.WebRootPath);
 
         List<BooksDto> booksDtos = new List<BooksDto>();
-        
-        foreach(Book book in GetRandomBooks(number)) {
+        BookFinder bookFinder = new BookFinder(repository);
+        bookFinder.RandomByGenre(genre, number);
+
+        foreach(Book book in bookFinder.RandomByGenre(genre, number)) {
             BooksDto booksDto = new BooksDto() {
                 Id = book.Id,
                 Title = book.Title,
@@ -35,15 +38,5 @@ public class RandomBooksFromGenreQuery : IRandomBooksFromGenreQuery {
             Genre = genre,
             Books = booksDtos
         };
-    }
-
-    IEnumerable<Book> GetRandomBooks(int number) {
-        List<Book> books = repository.GetAll().ToList();
-        Random random = new Random();
-        for(int i = 0; i < number; i++) {
-            Book randomBook = books[random.Next(0, books.Count-1)];
-            books.Remove(randomBook);
-            yield return randomBook;
-        }
     }
 }
