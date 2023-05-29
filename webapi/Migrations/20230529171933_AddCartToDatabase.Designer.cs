@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webapi.Infrastructure.Database.EntityFramework;
 
@@ -11,9 +12,11 @@ using webapi.Infrastructure.Database.EntityFramework;
 namespace webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230529171933_AddCartToDatabase")]
+    partial class AddCartToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,12 +30,12 @@ namespace webapi.Migrations
                     b.Property<int>("BooksId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CartsGuid")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CartsId")
+                        .HasColumnType("int");
 
-                    b.HasKey("BooksId", "CartsGuid");
+                    b.HasKey("BooksId", "CartsId");
 
-                    b.HasIndex("CartsGuid");
+                    b.HasIndex("CartsId");
 
                     b.ToTable("BookCart");
                 });
@@ -105,13 +108,16 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("webapi.Infrastructure.Database.Model.Cart", b =>
                 {
-                    b.Property<string>("Guid")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CartUserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Guid");
+                    b.HasKey("Id");
 
                     b.HasIndex("CartUserId")
                         .IsUnique();
@@ -174,7 +180,7 @@ namespace webapi.Migrations
 
                     b.HasOne("webapi.Infrastructure.Database.Model.Cart", null)
                         .WithMany()
-                        .HasForeignKey("CartsGuid")
+                        .HasForeignKey("CartsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -207,7 +213,8 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("webapi.Infrastructure.Database.Model.User", b =>
                 {
-                    b.Navigation("Cart");
+                    b.Navigation("Cart")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

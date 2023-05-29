@@ -32,6 +32,9 @@ module.exports = {
             },
             '^/api/auth': {
                 target: 'http://localhost:5050'
+            },
+            '^/api/cart': {
+                target: 'http://localhost:5050'
             }
         },
         port: 5002

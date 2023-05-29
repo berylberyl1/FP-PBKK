@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using webapi.Application.Query.Catalogue.BookDetail;
 using webapi.Application.Query.Catalogue.BookRecommendation;
+using webapi.Domain.Payment.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,7 @@ builder.Services.AddTransient<IBookRecommendationQuery, BookRecommendationQuery>
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")

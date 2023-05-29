@@ -21,6 +21,10 @@ const routes = [
         path: '/book/:id',
         component: () => import('@/components/PageBookDetail.vue')
     },
+    {
+        path: '/cart',
+        component: () => import('@/components/PageCart.vue')
+    }
 ];
 
 const router = createRouter({
