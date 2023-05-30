@@ -31,9 +31,12 @@
                             </table>
                             <p class="text-body-1 mb-n2">Price</p>
                             <p class="text-h6 mb-3">Rp. 500.000</p>
-                            <v-btn rounded="lg" style="float: left;" color="primary">
+                            <!-- <v-btn rounded="lg" style="float: left;" color="primary">
                                 Add to Cart
-                            </v-btn>
+                            </v-btn> -->
+                            <AddToCartButton :bookId="id">
+                                Add to Cart
+                            </AddToCartButton>
                         </div>
                     </div>
                     <p class="text-h6 text-left mb-2">Overview</p>
@@ -59,13 +62,19 @@
     <script lang="js">
     import { defineComponent } from 'vue';
     import BookItem from '@/components/BookItem.vue'
+    import AddToCartButton from '@/components/AddToCartButton.vue'
     
     export default defineComponent({
         name: 'BookDetailContainer',
         components: {
-            BookItem
+            BookItem,
+            AddToCartButton
         },
         props: {
+            id: {
+                type: String,
+                required: true
+            },
             title: {
                 type: String,
                 required: true

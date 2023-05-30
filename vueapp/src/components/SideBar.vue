@@ -16,7 +16,7 @@
                 active-class="list-active"
 
             >
-                <v-list-item rounded="lg" class="mb-2 text-start" prepend-icon="mdi-view-dashboard" title="Home" value="home" active></v-list-item>
+                <v-list-item rounded="lg" class="mb-2 text-start" prepend-icon="mdi-home" title="Home" value="home" active></v-list-item>
                 <v-list-item rounded="lg" class="mb-2 text-start" prepend-icon="mdi-forum" title="About" value="about"></v-list-item>
             </v-list>
         </v-navigation-drawer>

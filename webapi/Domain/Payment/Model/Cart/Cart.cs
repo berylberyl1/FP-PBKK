@@ -1,14 +1,17 @@
 namespace webapi.Domain.Payment.Model.Cart;
 
 public class Cart {
-    public CartId Id { get; set; }
+    public UserId UserId { get; set; }
+    public CartId CartId { get; set; }
     public List<Book> Books { get; set; }
 
     public Cart(
-        CartId id, 
+        UserId userId,
+        CartId cartId, 
         List<Book> books
     ) {
-        Id = id;
+        UserId = userId;
+        CartId = cartId;
         Books = books;
     }
 

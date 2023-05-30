@@ -13,6 +13,8 @@ using System.Text;
 using webapi.Application.Query.Catalogue.BookDetail;
 using webapi.Application.Query.Catalogue.BookRecommendation;
 using webapi.Domain.Payment.Repository;
+using webapi.Application.Query.Payment.Cart;
+using webapi.Infrastructure.Query.Payment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,7 @@ builder.Services.AddTransient<IRandomBooksFromGenreQuery, RandomBooksFromGenreQu
 builder.Services.AddTransient<IGenreQuery, GenreQuery>();
 builder.Services.AddTransient<IBookDetailQuery, BookDetailQuery>();
 builder.Services.AddTransient<IBookRecommendationQuery, BookRecommendationQuery>();
+builder.Services.AddTransient<ICartQuery, CartQuery>();
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();

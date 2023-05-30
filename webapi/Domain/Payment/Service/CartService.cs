@@ -13,10 +13,14 @@ public class CartService {
     public void AddBookToCart(int userId, Book book) {
         Cart? cart = cartRepository.GetByUserId(userId);
 
-        if(cart == null) cart = new Cart(
-            new CartId(Guid.NewGuid().ToString()), 
-            new List<Book>()
-        );
+        if(cart == null)  {
+            cart = new Cart(
+                new UserId(userId),
+                new CartId(Guid.NewGuid().ToString()), 
+                new List<Book>()
+            );
+            cartRepository.Add(cart);
+        }
 
         cart.AddBookToCart(book);
         cartRepository.Save(cart);

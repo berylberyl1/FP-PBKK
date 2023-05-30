@@ -12,7 +12,7 @@
                         <SideBar />
                     </v-col>
                     <v-col cols="10">
-                        <CartContainer />
+                        <CartContainer :cart="post.cart" />
                     </v-col>
                 </v-row>
             </GeneralContainer>
@@ -54,7 +54,7 @@
                 this.post = null;
                 this.loading = true;
 
-                fetch('api/cart', {
+                fetch('/api/cart', {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,

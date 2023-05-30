@@ -1,4 +1,7 @@
 <template>
+    <router-link to="/cart" style="color: black">
+        <v-icon icon="mdi-cart" size="large"></v-icon>
+    </router-link>
     <v-menu
         v-model="menu"
         open-on-hover

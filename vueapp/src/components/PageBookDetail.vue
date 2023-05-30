@@ -13,6 +13,7 @@
                     </v-col>
                     <v-col cols="10">
                         <BookDetailContainer 
+                            :id="this.$route.params.id"
                             :title="post.book.title"
                             :author="post.book.author"
                             :edition="post.book.edition"
