@@ -33,5 +33,6 @@ public class CartService {
 
         cart.RemoveBookFromCart(book);
         cartRepository.Save(cart);
+        if(cart.Books.Count <= 0) cartRepository.Remove(cart.CartId);
     }
 }

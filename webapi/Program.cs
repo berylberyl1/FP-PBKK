@@ -15,6 +15,8 @@ using webapi.Application.Query.Catalogue.BookRecommendation;
 using webapi.Domain.Payment.Repository;
 using webapi.Application.Query.Payment.Cart;
 using webapi.Infrastructure.Query.Payment;
+using webapi.Application.Query.Payment.BookInCart;
+using webapi.Infrastructure.Payment.BookInCartQuery;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,7 @@ builder.Services.AddTransient<IGenreQuery, GenreQuery>();
 builder.Services.AddTransient<IBookDetailQuery, BookDetailQuery>();
 builder.Services.AddTransient<IBookRecommendationQuery, BookRecommendationQuery>();
 builder.Services.AddTransient<ICartQuery, CartQuery>();
+builder.Services.AddTransient<IBookInCartQuery, BookInCartQuery>();
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();

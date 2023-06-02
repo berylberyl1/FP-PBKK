@@ -34,9 +34,12 @@
                             <!-- <v-btn rounded="lg" style="float: left;" color="primary">
                                 Add to Cart
                             </v-btn> -->
-                            <AddToCartButton :bookId="id">
+                            <AddToCartButton v-if="!isInCart" :bookId="id">
                                 Add to Cart
                             </AddToCartButton>
+                            <RemoveFromCartButton v-else :bookId="id">
+                                Remove from Cart
+                            </RemoveFromCartButton>
                         </div>
                     </div>
                     <p class="text-h6 text-left mb-2">Overview</p>
@@ -63,12 +66,14 @@
     import { defineComponent } from 'vue';
     import BookItem from '@/components/BookItem.vue'
     import AddToCartButton from '@/components/AddToCartButton.vue'
+    import RemoveFromCartButton from '@/components/RemoveFromCartButton.vue'
     
     export default defineComponent({
         name: 'BookDetailContainer',
         components: {
             BookItem,
-            AddToCartButton
+            AddToCartButton,
+            RemoveFromCartButton
         },
         props: {
             id: {
@@ -106,6 +111,9 @@
             },
             recommendation: {
                 type: Array
+            },
+            isInCart: {
+                type: Boolean,
             }
         },
     });

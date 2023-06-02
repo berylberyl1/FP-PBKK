@@ -5,6 +5,7 @@
     </VCardTitle>
     <v-card-text>
         <table v-if="cart" style="width: 100%;">
+            {{ cart.books == null }}
             <thead>
                 <tr>
                     <td>Product</td>

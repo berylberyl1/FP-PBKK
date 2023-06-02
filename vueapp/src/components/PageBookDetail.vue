@@ -24,6 +24,7 @@
                             :seriesNumber="post.book.seriesNumber"
                             :imageSrc="post.book.imageUrl"
                             :recommendation="post.recommendation.books"
+                            :isInCart="isInCart"
                         />
                     </v-col>
                 </v-row>
@@ -52,7 +53,8 @@
         data() {
             return {
                 loading: false,
-                post: null
+                post: null,
+                isInCart: false
             };
         },
         created() {
@@ -62,18 +64,36 @@
             '$route': 'fetchData'
         },
         methods: {
-            fetchData() {
+            async fetchData() {
                 this.post = null;
                 this.loading = true;
-                fetch('/api/book/' + this.$route.params.id)
+                await fetch('/api/book/' + this.$route.params.id)
                     .then(r => r.json())
                     .then(json => {
                         console.log(json);
                         this.post = json;
-                        this.loading = false;
                         return;
                     });
-            }
+                const token = localStorage.getItem('token')
+                if(token != null) {
+                    await fetch('/api/cart/' + this.$route.params.id, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => {
+                        console.log(response);
+
+                        return response.json();
+                    })
+                    .then(data => {
+                        this.isInCart = data.book != null;
+                    })
+                }
+                this.loading = false;
+            },
         },
     });
 </script>

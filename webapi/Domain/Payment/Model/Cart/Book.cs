@@ -17,4 +17,20 @@ public class Book {
         Author = author;
         Thumbnail = thumbnail;
     }
+
+    public override int GetHashCode() {
+        return Id;
+    }
+
+    public override bool Equals(object? obj) {
+        if (obj == null) return false;
+        Book? book= obj as Book;
+        if (book == null) return false;
+        return Equals(book);
+    }
+
+    public bool Equals(Book other) {
+        if (other == null) return false;
+        return (Id == other.Id);
+    }
 }

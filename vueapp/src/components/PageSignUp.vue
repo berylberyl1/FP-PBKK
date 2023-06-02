@@ -94,7 +94,7 @@ export default defineComponent({
 
         console.log(formData);
 
-        await fetch('api/auth/signup', {
+        await fetch('/api/auth/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -84,4 +84,14 @@ public class CartRepository : ICartRepository {
         db.Carts.Update(cartModel);
         db.SaveChanges();
     }
+
+    public void Remove(CartId cartId) {
+        db.Carts.Remove(
+            db.Carts
+                .Include(c => c.User)
+                .Include(c => c.Books)
+                .Where(cart => cart.Guid == cartId.Id).First()
+        );
+        db.SaveChanges();
+    }
 }
