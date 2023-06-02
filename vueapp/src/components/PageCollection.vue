@@ -29,7 +29,7 @@
     import CartContainer from '@/components/CartContainer.vue'
 
     export default defineComponent({
-        name: 'PageCart',
+        name: 'PageCollection',
         components: {
             LoadingBar,
             NavigationBar,

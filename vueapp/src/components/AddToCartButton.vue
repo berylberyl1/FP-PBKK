@@ -1,5 +1,5 @@
 <template>
-    <v-btn rounded="lg" style="float: left;" color="primary" @click="addToCart">
+    <v-btn rounded="lg" style="float: left; position: relative;" color="primary" @click="addToCart">
         <slot>
             
         </slot>
@@ -24,7 +24,10 @@ export default {
                     },
                 })
                 .then(response => {
-                    console.log(response.json());
+                    if(response.ok) {
+                        console.log(response.json());
+                        this.$emit("add");
+                    }
                 });
             }
             else {

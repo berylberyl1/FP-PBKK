@@ -24,7 +24,10 @@ export default {
                     },
                 })
                 .then(response => {
-                    console.log(response.json());
+                    if(response.ok) {
+                        console.log(response.json());
+                        this.$emit("remove");
+                    }
                 });
             }
             else {
