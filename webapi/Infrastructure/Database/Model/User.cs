@@ -8,4 +8,5 @@ public class User {
     [Required] public string? Email { get; set; }
     [Required] public string? Password { get; set; }
     public Cart? Cart { get; set; }
+    public Reservation? Reservation { get; set; }
 }

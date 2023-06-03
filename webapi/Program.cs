@@ -17,6 +17,9 @@ using webapi.Application.Query.Payment.Cart;
 using webapi.Infrastructure.Query.Payment;
 using webapi.Application.Query.Payment.BookInCart;
 using webapi.Infrastructure.Payment.BookInCartQuery;
+using webapi.Domain.Reservation.Repository;
+using webapi.Application.Query.Reservation.Reservation;
+using webapi.Infrastructure.Query.Reservation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,11 +44,13 @@ builder.Services.AddTransient<IBookDetailQuery, BookDetailQuery>();
 builder.Services.AddTransient<IBookRecommendationQuery, BookRecommendationQuery>();
 builder.Services.AddTransient<ICartQuery, CartQuery>();
 builder.Services.AddTransient<IBookInCartQuery, BookInCartQuery>();
+builder.Services.AddTransient<IReservationQuery, ReservationQuery>();
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")

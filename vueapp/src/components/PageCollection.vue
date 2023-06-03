@@ -9,10 +9,10 @@
             <GeneralContainer>
                 <v-row>
                     <v-col cols="2" class="pl-0">
-                        <SideBar />
+                        <SideBar active="2" />
                     </v-col>
                     <v-col cols="10">
-                        <CartContainer :cart="post.cart" />
+                        <CollectionContainer :collection="post.collection" />
                     </v-col>
                 </v-row>
             </GeneralContainer>
@@ -26,7 +26,7 @@
     import NavigationBar from '@/components/NavigationBar.vue'
     import SideBar from '@/components/SideBar.vue'
     import GeneralContainer from '@/components/GeneralContainer.vue'
-    import CartContainer from '@/components/CartContainer.vue'
+    import CollectionContainer from '@/components/CollectionContainer.vue'
 
     export default defineComponent({
         name: 'PageCollection',
@@ -35,7 +35,7 @@
             NavigationBar,
             SideBar,
             GeneralContainer,
-            CartContainer
+            CollectionContainer
         },
         data() {
             return {
@@ -54,7 +54,7 @@
                 this.post = null;
                 this.loading = true;
 
-                fetch('/api/cart', {
+                fetch('/api/collection', {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,

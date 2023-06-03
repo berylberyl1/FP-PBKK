@@ -35,4 +35,12 @@ public class CartService {
         cartRepository.Save(cart);
         if(cart.Books.Count <= 0) cartRepository.Remove(cart.CartId);
     }
+
+    public List<Book> Checkout(int userId) {
+        Cart? cart = cartRepository.GetByUserId(userId);
+
+        if(cart == null) throw new ApplicationException($"User with id: {userId} doesn't have a cart. Can't checkout.");
+        cartRepository.Remove(cart.CartId);
+        return cart.Books;
+    }
 }

@@ -4,33 +4,48 @@
         My Cart
     </VCardTitle>
     <v-card-text>
-        <table v-if="cart" style="width: 100%;">
-            <thead>
-                <tr>
-                    <td>Product</td>
-                    <td>Subtotal</td>
-                </tr>
-            </thead>
-            <tbody>
-                <div v-for="book in cart.books" :key="book.id">
-                    <v-divider></v-divider>
+        <div v-if="cart">
+            <table style="width: 100%;">
+                <thead>
                     <tr>
-                        <td>
-                            <BookItem 
-                                :id="book.id"
-                                :title="book.title" 
-                                :author="book.author" class="mx-5" 
-                                :thumbnailUrl="book.thumbnailUrl" 
-                                horizontal
-                            />
-                        </td>
-                        <td class="pt-3">
-                            Rp. 500.000
-                        </td>
+                        <td>Product</td>
+                        <td>Subtotal</td>
                     </tr>
+                </thead>
+                <tbody>
+                    <div v-for="book in cart.books" :key="book.id">
+                        <v-divider></v-divider>
+                        <tr>
+                            <td>
+                                <BookItem 
+                                    :id="book.id"
+                                    :title="book.title" 
+                                    :author="book.author" class="mx-5" 
+                                    :thumbnailUrl="book.thumbnailUrl" 
+                                    horizontal
+                                />
+                            </td>
+                            <td class="pt-3">
+                                Rp. 500.000
+                            </td>
+                        </tr>
+                    </div>
+                </tbody>
+            </table>
+            <div class="d-flex justify-space-between">
+                <p class="text-h5">
+                    Total
+                </p>
+                <div class="mb-6">
+                    <p class="text-h5 mb-2">
+                        Rp. -
+                    </p>
+                    <v-btn rounded="lg" style="float: right;" color="primary" @click="checkout">
+                        Checkout
+                    </v-btn>
                 </div>
-            </tbody>
-        </table>
+            </div>
+        </div>
         <p class="text-start mb-4" v-else>There is no item in the cart.</p>
     </v-card-text>
 </v-card>
@@ -50,7 +65,31 @@ export default defineComponent({
             type: Object,
             required: true
         }
-    }
+    },
+    methods: {
+        async checkout() {
+            var token = localStorage.getItem('token');
+
+            if(token != null) {
+                await fetch('/api/cart/checkout', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if(response.ok) {
+                        console.log(response);
+                    }
+                });
+            }
+            else {
+                this.$router.push('/login');
+            }
+            this.$router.push('/');
+        }
+    },
 });
 </script>
 

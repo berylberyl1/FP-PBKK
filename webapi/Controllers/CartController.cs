@@ -4,12 +4,14 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Application.Command.AddBookToCart;
+using webapi.Application.Command.Checkout;
 using webapi.Application.Command.RemoveBookFromCart;
 using webapi.Application.Query.Payment.BookInCart;
 using webapi.Application.Query.Payment.Cart;
 using webapi.Domain.Account.Repository;
 using webapi.Domain.Catalogue.Repository;
 using webapi.Domain.Payment.Repository;
+using webapi.Domain.Reservation.Repository;
 
 [ApiController]
 [Authorize]
@@ -18,6 +20,7 @@ public class CartController : ControllerBase {
     IUserRepository userRepository;
     IBookRepository bookRepository;
     ICartRepository cartRepository;
+    IReservationRepository reservationRepository;
     ICartQuery cartQuery;
     IBookInCartQuery bookInCartQuery;
 
@@ -25,12 +28,14 @@ public class CartController : ControllerBase {
         IUserRepository userRepository,
         IBookRepository bookRepository,
         ICartRepository cartRepository,
+        IReservationRepository reservationRepository,
         ICartQuery cartQuery,
         IBookInCartQuery bookInCartQuery
     ){
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
         this.cartRepository = cartRepository;
+        this.reservationRepository = reservationRepository;
         this.cartQuery = cartQuery;
         this.bookInCartQuery = bookInCartQuery;
     }
@@ -86,6 +91,20 @@ public class CartController : ControllerBase {
             BookId = bookId
         });
 
+        return Ok();
+    }
+
+    [HttpPost("Checkout")]
+    public IActionResult Checkout() {
+        string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if(userId == null)  {
+            return BadRequest("User is not authorized");
+        }
+
+        CheckoutCommand checkoutCommand = new CheckoutCommand(cartRepository, reservationRepository);
+        checkoutCommand.Execute(new CheckoutRequest() {
+            UserId = Int32.Parse(userId)
+        });
 
         return Ok();
     }

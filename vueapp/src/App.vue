@@ -7,8 +7,13 @@
 </template>
 
 <script>
+import jwtDecode from 'jwt-decode';
+
 export default {
   name: 'App',
+  created() {
+    this.hasValidToken();
+  },
   computed: {
     cssProps () {
         var themeColors = {}
@@ -16,6 +21,25 @@ export default {
           themeColors[`--v-${color}`] = this.$vuetify.theme.themes.light[color]
         })
         return themeColors
+    }
+  },
+  methods: {
+    hasValidToken() {
+      const token = localStorage.getItem('token');
+      let tokenIsValid = true;
+    
+      if(token == null) {
+        tokenIsValid = false;
+      }
+      else {
+        const user = jwtDecode(token);
+        if(user == null || user.exp < Date.now() / 1000) {
+          localStorage.clear();
+          tokenIsValid = false;
+        }
+      }
+
+      return tokenIsValid;
     }
   }
 }

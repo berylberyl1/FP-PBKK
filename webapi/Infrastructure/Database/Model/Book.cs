@@ -18,4 +18,5 @@ public class Book {
     public string? Summary { get; set; }
     public ICollection<Genre> Genres { get; set; } = new List<Genre>();
     public ICollection<Cart> Carts { get; set; } = new List<Cart>();
+    public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }

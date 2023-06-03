@@ -87,10 +87,7 @@ public class CartRepository : ICartRepository {
 
     public void Remove(CartId cartId) {
         db.Carts.Remove(
-            db.Carts
-                .Include(c => c.User)
-                .Include(c => c.Books)
-                .Where(cart => cart.Guid == cartId.Id).First()
+            db.Carts.Where(cart => cart.Guid == cartId.Id).First()
         );
         db.SaveChanges();
     }

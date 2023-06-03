@@ -24,6 +24,10 @@ const routes = [
     {
         path: '/cart',
         component: () => import('@/components/PageCart.vue')
+    },
+    {
+        path: '/collection',
+        component: () => import('@/components/PageCollection.vue')
     }
 ];
 

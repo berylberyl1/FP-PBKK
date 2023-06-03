@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webapi.Infrastructure.Database.EntityFramework;
 
@@ -11,9 +12,11 @@ using webapi.Infrastructure.Database.EntityFramework;
 namespace webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230602193032_AddReservationToDbContext")]
+    partial class AddReservationToDbContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,21 +55,6 @@ namespace webapi.Migrations
                     b.ToTable("BookGenre");
                 });
 
-            modelBuilder.Entity("BookReservation", b =>
-                {
-                    b.Property<int>("BooksId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ReservationsGuid")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("BooksId", "ReservationsGuid");
-
-                    b.HasIndex("ReservationsGuid");
-
-                    b.ToTable("BookReservation");
-                });
-
             modelBuilder.Entity("webapi.Infrastructure.Database.Model.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -97,6 +85,9 @@ namespace webapi.Migrations
                     b.Property<int>("PublicationYear")
                         .HasColumnType("int");
 
+                    b.Property<string>("ReservationGuid")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Series")
                         .HasColumnType("nvarchar(max)");
 
@@ -114,6 +105,8 @@ namespace webapi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ReservationGuid");
 
                     b.ToTable("Books");
                 });
@@ -164,8 +157,7 @@ namespace webapi.Migrations
 
                     b.HasKey("Guid");
 
-                    b.HasIndex("ReservationUserId")
-                        .IsUnique();
+                    b.HasIndex("ReservationUserId");
 
                     b.ToTable("Reservations");
                 });
@@ -225,19 +217,11 @@ namespace webapi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BookReservation", b =>
+            modelBuilder.Entity("webapi.Infrastructure.Database.Model.Book", b =>
                 {
-                    b.HasOne("webapi.Infrastructure.Database.Model.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("webapi.Infrastructure.Database.Model.Reservation", null)
-                        .WithMany()
-                        .HasForeignKey("ReservationsGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Books")
+                        .HasForeignKey("ReservationGuid");
                 });
 
             modelBuilder.Entity("webapi.Infrastructure.Database.Model.Cart", b =>
@@ -254,19 +238,22 @@ namespace webapi.Migrations
             modelBuilder.Entity("webapi.Infrastructure.Database.Model.Reservation", b =>
                 {
                     b.HasOne("webapi.Infrastructure.Database.Model.User", "User")
-                        .WithOne("Reservation")
-                        .HasForeignKey("webapi.Infrastructure.Database.Model.Reservation", "ReservationUserId")
+                        .WithMany()
+                        .HasForeignKey("ReservationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("webapi.Infrastructure.Database.Model.Reservation", b =>
+                {
+                    b.Navigation("Books");
+                });
+
             modelBuilder.Entity("webapi.Infrastructure.Database.Model.User", b =>
                 {
                     b.Navigation("Cart");
-
-                    b.Navigation("Reservation");
                 });
 #pragma warning restore 612, 618
         }
