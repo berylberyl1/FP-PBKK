@@ -20,6 +20,7 @@ using webapi.Infrastructure.Payment.BookInCartQuery;
 using webapi.Domain.Reservation.Repository;
 using webapi.Application.Query.Reservation.Reservation;
 using webapi.Infrastructure.Query.Reservation;
+using webapi.Application.Query.Reservation.BookInReservation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,7 @@ builder.Services.AddTransient<IBookRecommendationQuery, BookRecommendationQuery>
 builder.Services.AddTransient<ICartQuery, CartQuery>();
 builder.Services.AddTransient<IBookInCartQuery, BookInCartQuery>();
 builder.Services.AddTransient<IReservationQuery, ReservationQuery>();
+builder.Services.AddTransient<IBookInReservationQuery, BookInReservationQuery>();
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();

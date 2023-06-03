@@ -25,6 +25,7 @@
                             :imageSrc="post.book.imageUrl"
                             :recommendation="post.recommendation.books"
                             :isInCart="isInCart"
+                            :isInCollection="isInCollection"
                         />
                     </v-col>
                 </v-row>
@@ -54,7 +55,8 @@
             return {
                 loading: false,
                 post: null,
-                isInCart: false
+                isInCart: false,
+                isInCollection: false
             };
         },
         created() {
@@ -90,6 +92,22 @@
                     })
                     .then(data => {
                         this.isInCart = data.book != null;
+                    })
+
+                    await fetch('/api/collection/' + this.$route.params.id, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => {
+                        console.log(response);
+
+                        return response.json();
+                    })
+                    .then(data => {
+                        this.isInCollection = data.book != null;
                     })
                 }
                 this.loading = false;

@@ -34,12 +34,19 @@
                         <!-- <v-btn rounded="lg" style="float: left;" color="primary">
                             Add to Cart
                         </v-btn> -->
-                        <AddToCartButton v-if="!isBookInCart" :bookId="id" @add="switchButton">
-                            Add to Cart
-                        </AddToCartButton>
-                        <RemoveFromCartButton v-else :bookId="id" @remove="switchButton">
-                            Remove from Cart
-                        </RemoveFromCartButton>
+                        <div v-if="isInCollection">
+                            <v-btn rounded="lg" style="float: left; position: relative;" color="primary">
+                                Read
+                            </v-btn>
+                        </div>
+                        <div v-else>
+                            <AddToCartButton v-if="!isBookInCart" :bookId="id" @add="switchButton">
+                                Add to Cart
+                            </AddToCartButton>
+                            <RemoveFromCartButton v-else :bookId="id" @remove="switchButton">
+                                Remove from Cart
+                            </RemoveFromCartButton>
+                        </div>
                     </div>
                 </div>
                 <p class="text-h6 text-left mb-2">Overview</p>
@@ -118,6 +125,9 @@
                 type: Array
             },
             isInCart: {
+                type: Boolean,
+            },
+            isInCollection: {
                 type: Boolean,
             }
         },
