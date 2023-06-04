@@ -28,7 +28,12 @@ const routes = [
     {
         path: '/collection',
         component: () => import('@/components/PageCollection.vue')
+    },
+    {
+        path: '/readtest',
+        component: () => import('@/components/PageReadtest.vue')
     }
+
 ];
 
 const router = createRouter({
