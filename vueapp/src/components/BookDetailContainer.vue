@@ -35,7 +35,7 @@
                             Add to Cart
                         </v-btn> -->
                         <div v-if="isInCollection">
-                            <v-btn rounded="lg" style="float: left; position: relative;" color="primary">
+                            <v-btn rounded="lg" style="float: left; position: relative;" color="primary" href="/readtest">
                                 Read
                             </v-btn>
                         </div>

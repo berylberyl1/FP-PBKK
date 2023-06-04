@@ -9,7 +9,7 @@
             <GeneralContainer>
                 <v-row>
                     <v-col cols="2" class="pl-0">
-                        <SideBar active="2" />
+                        <SideBar />
                     </v-col>
                     <v-col cols="10">
                         <ReadTest :collection="post.collection" />
