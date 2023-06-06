@@ -12,11 +12,11 @@ public class BookInReservationQuery : IBookInReservationQuery {
     }
 
     public BookInReservationDto? Execute(int userId, int id) {
-        Reservation? cart = repository.GetByUserId(userId);
+        Reservation? reservation = repository.GetByUserId(userId);
 
-        if(cart == null) return null;
+        if(reservation == null) return null;
 
-        foreach(Book book in cart.Books) {
+        foreach(Book book in reservation.Books) {
             if(book.Id == id) {
                 return new BookInReservationDto {
                     Id = book.Id

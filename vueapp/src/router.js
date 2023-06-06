@@ -30,8 +30,8 @@ const routes = [
         component: () => import('@/components/PageCollection.vue')
     },
     {
-        path: '/readtest',
-        component: () => import('@/components/PageReadtest.vue')
+        path: '/book/:id/read',
+        component: () => import('@/components/PageRead.vue')
     }
 
 ];

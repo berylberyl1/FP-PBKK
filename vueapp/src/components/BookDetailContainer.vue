@@ -35,9 +35,11 @@
                             Add to Cart
                         </v-btn> -->
                         <div v-if="isInCollection">
-                            <v-btn rounded="lg" style="float: left; position: relative;" color="primary" href="/readtest">
-                                Read
-                            </v-btn>
+                            <RouterLink :to="'/book/' + id + '/read'">
+                                <v-btn rounded="lg" style="float: left; position: relative;" color="primary">
+                                    Read
+                                </v-btn>
+                            </RouterLink>
                         </div>
                         <div v-else>
                             <AddToCartButton v-if="!isBookInCart" :bookId="id" @add="switchButton">
