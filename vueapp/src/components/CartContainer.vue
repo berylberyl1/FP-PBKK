@@ -71,7 +71,8 @@ export default defineComponent({
             var token = localStorage.getItem('token');
 
             if(token != null) {
-                await fetch('/api/cart/checkout', {
+                const BASE_URL = process.env.VUE_APP_BASEURL
+                await fetch(BASE_URL + '/api/cart/checkout', {
                     method: 'POST',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -81,6 +82,9 @@ export default defineComponent({
                 .then(response => {
                     if(response.ok) {
                         console.log(response);
+                    }
+                    if(response.status == "401") {
+                        this.$router.push("/");
                     }
                 });
             }

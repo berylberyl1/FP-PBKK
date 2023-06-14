@@ -53,7 +53,8 @@
                 this.post = null;
                 this.loading = true;
 
-                fetch('api/home')
+                const BASE_URL = process.env.VUE_APP_BASEURL
+                fetch(BASE_URL + '/api/home')
                     .then(r => r.json())
                     .then(json => {
                         this.post = json;

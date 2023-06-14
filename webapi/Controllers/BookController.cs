@@ -40,6 +40,14 @@ public class BookController : ControllerBase {
     }
 
     [AllowAnonymous]
+    [HttpGet("Test")]
+    public IActionResult Get() {
+        return Ok(new {
+           Test = "Test doang" 
+        });
+    }
+
+    [AllowAnonymous]
     [HttpGet("Image/{filename}")]
     public IActionResult Get(string filename) {
         var imagePath = Path.Combine(environment.WebRootPath, "Images", filename);

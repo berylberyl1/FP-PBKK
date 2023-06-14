@@ -69,7 +69,8 @@
             async fetchData() {
                 this.post = null;
                 this.loading = true;
-                await fetch('/api/book/' + this.$route.params.id)
+                const BASE_URL = process.env.VUE_APP_BASEURL
+                await fetch(BASE_URL + '/api/book/' + this.$route.params.id)
                     .then(r => r.json())
                     .then(json => {
                         console.log(json);
@@ -78,7 +79,7 @@
                     });
                 const token = localStorage.getItem('token')
                 if(token != null) {
-                    await fetch('/api/cart/' + this.$route.params.id, {
+                    await fetch(BASE_URL + '/api/cart/' + this.$route.params.id, {
                         method: 'GET',
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -94,7 +95,7 @@
                         this.isInCart = data.book != null;
                     })
 
-                    await fetch('/api/collection/' + this.$route.params.id, {
+                    await fetch(BASE_URL + '/api/collection/' + this.$route.params.id, {
                         method: 'GET',
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,

@@ -2,7 +2,7 @@
     <router-link :to="'/book/' + id" style="color: black; text-decoration: none;">
         <v-card v-if="horizontal" flat class="book-item d-flex" color="transparent">
             <div style="width: 111px; height: 156px; overflow: hidden;">
-                <v-img v-if="thumbnailUrl" class="rounded-lg" :src="this.thumbnailUrl" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
+                <v-img v-if="thumbnailUrl" class="rounded-lg" :src="url" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
                 <v-img v-else :src="require('@/assets/images/book-thumbnail.png')" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
             </div>
             <div>
@@ -12,7 +12,7 @@
         </v-card>
         <v-card v-else flat width="130" class="book-item d-flex flex-column" color="transparent">
             <div style="width: 111px; height: 156px; overflow: hidden;">
-                <v-img v-if="thumbnailUrl" class="rounded-lg" :src="this.thumbnailUrl" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
+                <v-img v-if="thumbnailUrl" class="rounded-lg" :src="url" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
                 <v-img v-else :src="require('@/assets/images/book-thumbnail.png')" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
             </div>
             <div>
@@ -28,6 +28,22 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'BookItem',
+    data() {
+        return {
+            url: ""
+        };
+    },
+    created() {
+        this.loadData()
+    },
+    methods: {
+        loadData() {
+            this.url = process.env.VUE_APP_BASEURL + this.thumbnailUrl
+        }
+    },
+    watch: {
+        '$route': 'loadData'
+    },
     props: {
         id: {
             type: String,

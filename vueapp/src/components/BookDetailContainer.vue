@@ -5,7 +5,7 @@
             <v-col cols="8">
                 <div class="d-flex mb-3">
                     <div class="rounded-xl" style="width: 220px; height: 313px; overflow: hidden;">
-                    <v-img :src="this.imageSrc" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
+                    <v-img :src="url" style="object-fit: cover; width: 100%; height: 100%;"></v-img>
                     </div>
                     <div class="text-left ml-8">
                         <p class="text-h4 mb-n2"> {{ title }} </p>
@@ -86,8 +86,12 @@
         },
         data() {
             return {
-                isBookInCart: false
+                isBookInCart: false,
+                url: ""
             }
+        },
+        created() {
+            this.loadData()
         },
         props: {
             id: {
@@ -139,11 +143,15 @@
                 handler(value) {
                     this.isBookInCart = value;
                 }
-            }
+            },
+            '$route': 'loadData'
         },
         methods: {
             switchButton() {
                 this.isBookInCart = !this.isBookInCart;
+            },
+            loadData() {
+                this.url = process.env.VUE_APP_BASEURL + this.imageSrc
             }
         }
     });

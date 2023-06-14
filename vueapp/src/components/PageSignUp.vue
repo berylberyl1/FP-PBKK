@@ -94,7 +94,8 @@ export default defineComponent({
 
         console.log(formData);
 
-        await fetch('/api/auth/signup', {
+        const BASE_URL = process.env.VUE_APP_BASEURL
+        await fetch(BASE_URL + '/api/auth/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

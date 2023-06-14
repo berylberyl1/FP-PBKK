@@ -75,7 +75,8 @@ export default defineComponent({
           password: this.password
         };
 
-        await fetch('/api/auth/login', {
+        const BASE_URL = process.env.VUE_APP_BASEURL
+        await fetch(BASE_URL + '/api/auth/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

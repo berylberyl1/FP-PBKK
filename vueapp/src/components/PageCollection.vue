@@ -54,7 +54,8 @@
                 this.post = null;
                 this.loading = true;
 
-                fetch('/api/collection', {
+                const BASE_URL = process.env.VUE_APP_BASEURL
+                fetch(BASE_URL + '/api/collection', {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -63,6 +64,10 @@
                 })
                 .then(response => {
                     console.log(response);
+
+                    if(response.status == "401") {
+                        this.$router.push("/");
+                    }
 
                     return response.json();
                 })

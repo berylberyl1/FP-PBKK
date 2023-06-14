@@ -15,8 +15,9 @@ export default {
             var token = localStorage.getItem('token');
 
             if(token != null) {
-                console.log('/api/cart/remove/' + this.bookId);
-                await fetch('/api/cart/remove/' + this.bookId, {
+                const BASE_URL = process.env.VUE_APP_BASEURL
+                console.log(BASE_URL + '/api/cart/remove/' + this.bookId);
+                await fetch(BASE_URL + '/api/cart/remove/' + this.bookId, {
                     method: 'POST',
                     headers: {
                         Authorization: `Bearer ${token}`,
