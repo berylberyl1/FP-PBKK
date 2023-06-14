@@ -19,11 +19,11 @@ public class AddBookToCartCommand {
         this.cartRepository = cartRepository;
     }
 
-    public void Execute(AddBookToCartRequest request) {
-        Book book = bookRepository.GetById(request.BookId);
+    public async Task Execute(AddBookToCartRequest request) {
+        Book book = await bookRepository.GetById(request.BookId);
 
         CartService cartService = new CartService(cartRepository);
-        cartService.AddBookToCart(request.UserId, new PaymentBook(
+        await cartService.AddBookToCart(request.UserId, new PaymentBook(
             book.Id,
             book.Title,
             book.Author,

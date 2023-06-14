@@ -26,26 +26,26 @@ public class CollectionController : ControllerBase {
     }
 
     [HttpGet]
-    public IActionResult Get() {
+    public async Task<IActionResult> Get() {
         string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if(userId == null)  {
             return BadRequest("User is not authorized");
         }
 
         return Ok(new {
-            Collection = reservationQuery.Execute(Int32.Parse(userId))
+            Collection = await reservationQuery.Execute(Int32.Parse(userId))
         });
     }
 
     [HttpGet("{bookId}")]
-    public IActionResult Get(int bookId) {
+    public async Task<IActionResult> Get(int bookId) {
         string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if(userId == null)  {
             return BadRequest("User is not authorized");
         }
 
         return Ok(new {
-            Book = bookInReservationQuery.Execute(Int32.Parse(userId), bookId)
+            Book = await bookInReservationQuery.Execute(Int32.Parse(userId), bookId)
         });
     }
 }

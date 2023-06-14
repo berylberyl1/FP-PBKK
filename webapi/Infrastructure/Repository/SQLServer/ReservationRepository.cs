@@ -17,21 +17,21 @@ public class ReservationRepository : IReservationRepository {
         this.db = db;
     }
 
-    public Reservation? GetByUserId(int userId) {
-        ReservationModel? reservationModel = db.Reservations
+    public async Task<Reservation?> GetByUserId(int userId) {
+        ReservationModel? reservationModel = await db.Reservations
             .Where(c => c.ReservationUserId == userId)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
 
         if(reservationModel == null) return null;
 
-        return GetById(new ReservationId(reservationModel.Guid));
+        return await GetById(new ReservationId(reservationModel.Guid));
     }
 
-    public Reservation GetById(ReservationId reservationId) {
-        ReservationModel? reservationModel = db.Reservations
+    public async Task<Reservation> GetById(ReservationId reservationId) {
+        ReservationModel? reservationModel = await db.Reservations
             .Include(c => c.Books)
             .Where(c => c.Guid == reservationId.Id)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
 
         if(reservationModel == null) throw new ApplicationException($"Cart with id: {reservationId} doesnt exist.");
 
@@ -47,35 +47,35 @@ public class ReservationRepository : IReservationRepository {
         return reservation;
     }
 
-    public void Add(Reservation reservation) {
+    public async Task Add(Reservation reservation) {
         ReservationModel reservationModel = new ReservationModel() {
             Guid = reservation.ReservationId.Id,
             ReservationUserId = reservation.UserId.Id,
-            User = db.Users.Where(user => user.Id == reservation.UserId.Id).First()
+            User = await db.Users.Where(user => user.Id == reservation.UserId.Id).FirstAsync()
         };
         foreach(Book book in reservation.Books) {
             reservationModel.Books.Add(
-                db.Books.Where(bookModel => bookModel.Id == book.Id).First()
+                await db.Books.Where(bookModel => bookModel.Id == book.Id).FirstAsync()
             );
         }
-        db.Reservations.Add(reservationModel);
+        await db.Reservations.AddAsync(reservationModel);
         db.SaveChanges();
     }
 
-    public void Save(Reservation reservation) {
-        ReservationModel reservationModel = db.Reservations
+    public async Task Save(Reservation reservation) {
+        ReservationModel reservationModel = await db.Reservations
             .Include(c => c.Books)
             .Include(c => c.User)
             .Where(c => c.Guid == reservation.ReservationId.Id)
-            .First();
+            .FirstAsync();
 
         reservationModel.ReservationUserId = reservation.UserId.Id;
-        reservationModel.User = db.Users.Where(user => user.Id == reservation.UserId.Id).First();
+        reservationModel.User = await db.Users.Where(user => user.Id == reservation.UserId.Id).FirstAsync();
 
         reservationModel.Books.Clear();
         foreach(Book book in reservation.Books) {
             reservationModel.Books.Add(
-                db.Books.Where(bookModel => bookModel.Id == book.Id).First()
+                await db.Books.Where(bookModel => bookModel.Id == book.Id).FirstAsync()
             );
         }
         
@@ -83,9 +83,9 @@ public class ReservationRepository : IReservationRepository {
         db.SaveChanges();
     }
 
-    public void Remove(ReservationId reservationId) {
+    public async Task Remove(ReservationId reservationId) {
         db.Carts.Remove(
-            db.Carts.Where(cart => cart.Guid == reservationId.Id).First()
+            await db.Carts.Where(cart => cart.Guid == reservationId.Id).FirstAsync()
         );
         db.SaveChanges();
     }

@@ -2,6 +2,7 @@ namespace webapi.Infrastructure.Repository.SQLServer;
 
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using webapi.Domain.Account.Repository;
 using webapi.Infrastructure.Database.EntityFramework;
 
@@ -15,14 +16,14 @@ public class UserRepository : IUserRepository {
         this.db = db;
     }
 
-    public void Add(User entity) {
+    public async Task Add(User entity) {
         UserModel userModel = new UserModel() {
             FullName = entity.FullName,
             Email = entity.Email,
             Password = entity.Password
         };
 
-        db.Users.Add(userModel);
+        await db.Users.AddAsync(userModel);
         db.SaveChanges();
     }
 
@@ -33,33 +34,32 @@ public class UserRepository : IUserRepository {
         // db.SaveChanges();
     }
 
-    public IEnumerable<User> GetAll() {
+    public async IAsyncEnumerable<User> GetAll() {
         foreach(UserModel userModel in db.Users.ToList()) {
-            User? user = GetById(userModel.Id);
+            User? user = await GetById(userModel.Id);
             if(user == null) continue;
 
             yield return user;
         }
     }
 
-    public User? GetFirst(string email, string password) {
-        var query = db.Users.Where(user => 
+    public async Task<User?> GetFirst(string email, string password) {
+        UserModel? userModel = await db.Users.Where(user => 
             user.Email == email && user.Password == password
-        );
+        ).FirstOrDefaultAsync();
 
-        foreach(UserModel userModel in query) {
-            return new User() {
-                Id = userModel.Id,
-                FullName = userModel.FullName,
-                Email = userModel.Email,
-                Password = userModel.Password
-            };
-        }
-        return null;
+        if(userModel == null) return null;
+
+        return new User() {
+            Id = userModel.Id,
+            FullName = userModel.FullName,
+            Email = userModel.Email,
+            Password = userModel.Password
+        };
     }
 
-    public User? GetById(int id) {
-        UserModel? userModel = db.Users.Find(id);
+    public async Task<User?> GetById(int id) {
+        UserModel? userModel = await db.Users.FindAsync(id);
 
         if(userModel == null) return null;
         

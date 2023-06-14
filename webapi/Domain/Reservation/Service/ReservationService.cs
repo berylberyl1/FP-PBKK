@@ -10,8 +10,8 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
-    public void AddBooksToReservation(int userId, List<Book> books) {
-        Reservation? reservation = reservationRepository.GetByUserId(userId);
+    public async Task AddBooksToReservation(int userId, List<Book> books) {
+        Reservation? reservation = await reservationRepository.GetByUserId(userId);
 
         if(reservation == null)  {
             reservation = new Reservation(
@@ -19,18 +19,18 @@ public class ReservationService {
                 new ReservationId(Guid.NewGuid().ToString()), 
                 new List<Book>()
             );
-            reservationRepository.Add(reservation);
+            await reservationRepository.Add(reservation);
         }
 
         foreach(Book book in books) {
             reservation.AddBookToReservation(book);
         }
         
-        reservationRepository.Save(reservation);
+        await reservationRepository.Save(reservation);
     }
 
-    public void AddBookToReservation(int userId, Book book) {
-        Reservation? reservation = reservationRepository.GetByUserId(userId);
+    public async Task AddBookToReservation(int userId, Book book) {
+        Reservation? reservation = await reservationRepository.GetByUserId(userId);
 
         if(reservation == null)  {
             reservation = new Reservation(
@@ -38,20 +38,20 @@ public class ReservationService {
                 new ReservationId(Guid.NewGuid().ToString()), 
                 new List<Book>()
             );
-            reservationRepository.Add(reservation);
+            await reservationRepository.Add(reservation);
         }
 
         reservation.AddBookToReservation(book);
-        reservationRepository.Save(reservation);
+        await reservationRepository.Save(reservation);
     }
 
-    public void RemoveBookFromReservation(int userId, Book book) {
-        Reservation? reservation = reservationRepository.GetByUserId(userId);
+    public async Task RemoveBookFromReservation(int userId, Book book) {
+        Reservation? reservation = await reservationRepository.GetByUserId(userId);
 
         if(reservation == null) throw new ApplicationException($"User with id: {userId} doesn't have a reservation. Can't remove {book} from reservation.");
 
         reservation.RemoveBookFromReservation(book);
-        reservationRepository.Save(reservation);
-        if(reservation.Books.Count <= 0) reservationRepository.Remove(reservation.ReservationId);
+        await reservationRepository.Save(reservation);
+        if(reservation.Books.Count <= 0) await reservationRepository.Remove(reservation.ReservationId);
     }
 }

@@ -19,21 +19,21 @@ public class CartRepository : ICartRepository {
         this.db = db;
     }
 
-    public Cart? GetByUserId(int userId) {
-        CartModel? cartModel = db.Carts
+    public async Task<Cart?> GetByUserId(int userId) {
+        CartModel? cartModel = await db.Carts
             .Where(c => c.CartUserId == userId)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
 
         if(cartModel == null) return null;
 
-        return GetById(new CartId(cartModel.Guid));
+        return await GetById(new CartId(cartModel.Guid));
     }
 
-    public Cart GetById(CartId cartId) {
-        CartModel? cartModel = db.Carts
+    public async Task<Cart> GetById(CartId cartId) {
+        CartModel? cartModel = await db.Carts
             .Include(c => c.Books)
             .Where(c => c.Guid == cartId.Id)
-            .FirstOrDefault();
+            .FirstOrDefaultAsync();
 
         if(cartModel == null) throw new ApplicationException($"Cart with id: {cartId} doesnt exist.");
 
@@ -49,35 +49,35 @@ public class CartRepository : ICartRepository {
         return cart;
     }
 
-    public void Add(Cart cart) {
+    public async Task Add(Cart cart) {
         CartModel cartModel = new CartModel() {
             Guid = cart.CartId.Id,
             CartUserId = cart.UserId.Id,
-            User = db.Users.Where(user => user.Id == cart.UserId.Id).First()
+            User = await db.Users.Where(user => user.Id == cart.UserId.Id).FirstAsync()
         };
         foreach(Book book in cart.Books) {
             cartModel.Books.Add(
-                db.Books.Where(bookModel => bookModel.Id == book.Id).First()
+                await db.Books.Where(bookModel => bookModel.Id == book.Id).FirstAsync()
             );
         }
-        db.Carts.Add(cartModel);
+        await db.Carts.AddAsync(cartModel);
         db.SaveChanges();
     }
 
-    public void Save(Cart cart) {
-        CartModel cartModel = db.Carts
+    public async Task Save(Cart cart) {
+        CartModel cartModel = await db.Carts
             .Include(c => c.Books)
             .Include(c => c.User)
             .Where(c => c.Guid == cart.CartId.Id)
-            .First();
+            .FirstAsync();
 
         cartModel.CartUserId = cart.UserId.Id;
-        cartModel.User = db.Users.Where(user => user.Id == cart.UserId.Id).First();
+        cartModel.User = await db.Users.Where(user => user.Id == cart.UserId.Id).FirstAsync();
 
         cartModel.Books.Clear();
         foreach(Book book in cart.Books) {
             cartModel.Books.Add(
-                db.Books.Where(bookModel => bookModel.Id == book.Id).First()
+                await db.Books.Where(bookModel => bookModel.Id == book.Id).FirstAsync()
             );
         }
         
@@ -85,9 +85,9 @@ public class CartRepository : ICartRepository {
         db.SaveChanges();
     }
 
-    public void Remove(CartId cartId) {
+    public async Task Remove(CartId cartId) {
         db.Carts.Remove(
-            db.Carts.Where(cart => cart.Guid == cartId.Id).First()
+            await db.Carts.Where(cart => cart.Guid == cartId.Id).FirstAsync()
         );
         db.SaveChanges();
     }

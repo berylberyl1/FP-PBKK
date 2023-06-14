@@ -11,8 +11,8 @@ public class BookInCartQuery : IBookInCartQuery {
         this.repository = repository;
     }
 
-    public BookInCartDto? Execute(int userId, int id) {
-        Cart? cart = repository.GetByUserId(userId);
+    public async Task<BookInCartDto?> Execute(int userId, int id) {
+        Cart? cart = await repository.GetByUserId(userId);
 
         if(cart == null) return null;
 

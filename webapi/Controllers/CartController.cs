@@ -41,37 +41,37 @@ public class CartController : ControllerBase {
     }
 
     [HttpGet]
-    public IActionResult Get() {
+    public async Task<IActionResult> Get() {
         string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if(userId == null)  {
             return BadRequest("User is not authorized");
         }
 
         return Ok(new {
-            Cart = cartQuery.Execute(Int32.Parse(userId))
+            Cart = await cartQuery.Execute(Int32.Parse(userId))
         });
     }
 
     [HttpGet("{bookId}")]
-    public IActionResult Get(int bookId) {
+    public async Task<IActionResult> Get(int bookId) {
         string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if(userId == null)  {
             return BadRequest("User is not authorized");
         }
 
         return Ok(new {
-            Book = bookInCartQuery.Execute(Int32.Parse(userId), bookId)
+            Book = await bookInCartQuery.Execute(Int32.Parse(userId), bookId)
         });
     }
 
     [HttpPost("Add/{bookId}")]
-    public IActionResult AddBookToCart(int bookId) {
+    public async Task<IActionResult> AddBookToCart(int bookId) {
         string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if(userId == null)  {
             return BadRequest("User is not authorized");
         }
 
-        new AddBookToCartCommand(bookRepository, cartRepository).Execute(new AddBookToCartRequest() {
+        await new AddBookToCartCommand(bookRepository, cartRepository).Execute(new AddBookToCartRequest() {
             UserId = Int32.Parse(userId),
             BookId = bookId
         });
@@ -80,13 +80,13 @@ public class CartController : ControllerBase {
     }
 
     [HttpPost("Remove/{bookId}")]
-    public IActionResult RemoveBookFromCart(int bookId) {
+    public async Task<IActionResult> RemoveBookFromCart(int bookId) {
         string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if(userId == null)  {
             return BadRequest("User is not authorized");
         }
 
-        new RemoveBookFromCartCommand(bookRepository, cartRepository).Execute(new RemoveBookFromCartRequest() {
+        await new RemoveBookFromCartCommand(bookRepository, cartRepository).Execute(new RemoveBookFromCartRequest() {
             UserId = Int32.Parse(userId),
             BookId = bookId
         });
@@ -95,14 +95,14 @@ public class CartController : ControllerBase {
     }
 
     [HttpPost("Checkout")]
-    public IActionResult Checkout() {
+    public async Task<IActionResult> Checkout() {
         string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if(userId == null)  {
             return BadRequest("User is not authorized");
         }
 
         CheckoutCommand checkoutCommand = new CheckoutCommand(cartRepository, reservationRepository);
-        checkoutCommand.Execute(new CheckoutRequest() {
+        await checkoutCommand.Execute(new CheckoutRequest() {
             UserId = Int32.Parse(userId)
         });
 

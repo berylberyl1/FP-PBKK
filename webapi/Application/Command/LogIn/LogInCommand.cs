@@ -22,11 +22,11 @@ public class LogInCommand {
         this.repository = repository;
     }
 
-    public string Handle(LogInDto request) {
+    public async Task<string> Handle(LogInDto request) {
         if(request.Email == null) throw new InvalidOperationException("User credentials incorrect.");
         if(request.Password == null) throw new InvalidOperationException("User credentials incorrect.");
 
-        User? user = repository.GetFirst(request.Email, request.Password);
+        User? user = await repository.GetFirst(request.Email, request.Password);
         if(user == null) throw new InvalidOperationException("User credentials incorrect.");
 
         User newUser = new User() {

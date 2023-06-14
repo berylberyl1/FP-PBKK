@@ -17,14 +17,14 @@ public class RandomBooksFromGenreQuery : IRandomBooksFromGenreQuery {
         this.logger = logger;
     }
 
-    public RandomBooksFromGenreDto Execute(string genre, int number) {
+    public async Task<RandomBooksFromGenreDto> Execute(string genre, int number) {
         logger.LogInformation(environment.WebRootPath);
 
         List<BooksDto> booksDtos = new List<BooksDto>();
         BookFinder bookFinder = new BookFinder(repository);
         bookFinder.RandomByGenre(genre, number);
 
-        foreach(Book book in bookFinder.RandomByGenre(genre, number)) {
+        await foreach(Book book in bookFinder.RandomByGenre(genre, number)) {
             BooksDto booksDto = new BooksDto() {
                 Id = book.Id,
                 Title = book.Title,

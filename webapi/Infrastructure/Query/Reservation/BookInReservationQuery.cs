@@ -11,8 +11,8 @@ public class BookInReservationQuery : IBookInReservationQuery {
         this.repository = repository;
     }
 
-    public BookInReservationDto? Execute(int userId, int id) {
-        Reservation? reservation = repository.GetByUserId(userId);
+    public async Task<BookInReservationDto?> Execute(int userId, int id) {
+        Reservation? reservation = await repository.GetByUserId(userId);
 
         if(reservation == null) return null;
 

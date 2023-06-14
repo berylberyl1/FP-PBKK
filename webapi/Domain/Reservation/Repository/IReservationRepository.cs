@@ -3,9 +3,9 @@ namespace webapi.Domain.Reservation.Repository;
 using webapi.Domain.Reservation.Model.Reservation;
 
 public interface IReservationRepository {
-    void Add(Reservation reservation);
-    void Save(Reservation reservation);
-    void Remove(ReservationId reservationId);
-    Reservation? GetByUserId(int userId);
-    Reservation GetById(ReservationId id);
+    Task Add(Reservation reservation);
+    Task Save(Reservation reservation);
+    Task Remove(ReservationId reservationId);
+    Task<Reservation?> GetByUserId(int userId);
+    Task<Reservation> GetById(ReservationId id);
 }

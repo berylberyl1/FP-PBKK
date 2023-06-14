@@ -20,9 +20,9 @@ public class CheckoutCommand {
         this.reservationRepository = reservationRepository;
     }
 
-    public void Execute(CheckoutRequest request) {
+    public async Task Execute(CheckoutRequest request) {
         CartService cartService = new CartService(cartRepository);
-        List<CartBook> cartBooks = cartService.Checkout(request.UserId);
+        List<CartBook> cartBooks = await cartService.Checkout(request.UserId);
 
         ReservationService reservationService = new ReservationService(reservationRepository);
         List<ReservationBook> reservedBooks = new List<ReservationBook>();
@@ -36,6 +36,6 @@ public class CheckoutCommand {
             ));
         }
 
-        reservationService.AddBooksToReservation(request.UserId, reservedBooks);
+        await reservationService.AddBooksToReservation(request.UserId, reservedBooks);
     }
 }

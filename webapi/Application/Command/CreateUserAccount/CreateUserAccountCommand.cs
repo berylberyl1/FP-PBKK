@@ -12,8 +12,8 @@ public class CreateUserAccountCommand {
         this.repository = repository;
     }
 
-    public void Handle(RegistrationRequestDto request) {
-        foreach(User user in repository.GetAll()) {
+    public async Task Handle(RegistrationRequestDto request) {
+        await foreach(User user in repository.GetAll()) {
             if(user.Email == request.Email) {
                 throw new InvalidOperationException("Email already exists.");
             }
@@ -25,6 +25,6 @@ public class CreateUserAccountCommand {
             Password = request.Password
         };
 
-        repository.Add(newUser);
+        await repository.Add(newUser);
     }
 }

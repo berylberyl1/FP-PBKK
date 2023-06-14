@@ -30,9 +30,9 @@ public class BookController : ControllerBase {
 
     [AllowAnonymous]
     [HttpGet("{id}")]
-    public IActionResult Get(int id) {
-        BookDetailDto book = bookDetailQuery.Execute(id);
-        BookRecommendationDto recommendation = bookRecommendationQuery.Execute(id, 4);
+    public async Task<IActionResult> Get(int id) {
+        BookDetailDto book = await bookDetailQuery.Execute(id);
+        BookRecommendationDto recommendation = await bookRecommendationQuery.Execute(id, 4);
         return Ok(new {
             Book = book,
             Recommendation = recommendation
@@ -49,25 +49,25 @@ public class BookController : ControllerBase {
 
     [AllowAnonymous]
     [HttpGet("Image/{filename}")]
-    public IActionResult Get(string filename) {
+    public async Task<IActionResult> Get(string filename) {
         var imagePath = Path.Combine(environment.WebRootPath, "Images", filename);
-        var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+        var imageBytes = await System.IO.File.ReadAllBytesAsync(imagePath);
         return File(imageBytes, MimeTypesMap.GetMimeType(imagePath));
     }
 
     [Authorize]
     [HttpGet("{id}/Read/file.epub")]
-    public IActionResult GetBookContent(int id) {
+    public async Task<IActionResult> GetBookContent(int id) {
         string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if(userId == null)  {
             return BadRequest("User is not authorized");
         }
         
-        BookInReservationDto? book = bookInReservationQuery.Execute(Int32.Parse(userId), id);
+        BookInReservationDto? book = await bookInReservationQuery.Execute(Int32.Parse(userId), id);
         if(book == null) return BadRequest("Book hasn't been reserved");
 
         var bookPath = Path.Combine(environment.WebRootPath, "Books", "64-foundation.epub");
-        var bookBytes = System.IO.File.ReadAllBytes(bookPath);
+        var bookBytes = await System.IO.File.ReadAllBytesAsync(bookPath);
         return File(bookBytes, MimeTypesMap.GetMimeType(bookPath));
     }
 }

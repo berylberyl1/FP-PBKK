@@ -29,17 +29,17 @@ public class GenreRepository : IGenreRepository {
         // db.SaveChanges();
     }
 
-    public IEnumerable<Genre> GetAll() {
+    public async IAsyncEnumerable<Genre> GetAll() {
         foreach(GenreModel genreModel in db.Genres.ToList()) {
-            Genre? genre = GetById(genreModel.Id);
+            Genre? genre = await GetById(genreModel.Id);
             if(genre == null) continue;
 
             yield return genre;
         }
     }
 
-    public Genre? GetById(int id) {
-        GenreModel? genreModel = db.Genres.Find(id);
+    public async Task<Genre?> GetById(int id) {
+        GenreModel? genreModel = await db.Genres.FindAsync(id);
 
         if(genreModel == null) return null;
         

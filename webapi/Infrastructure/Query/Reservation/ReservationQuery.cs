@@ -13,8 +13,8 @@ public class ReservationQuery : IReservationQuery {
         this.reservationRepository = reservationRepository;
     }
 
-    public ReservationDto? Execute(int userId) {
-        Reservation? reservation = reservationRepository.GetByUserId(userId);
+    public async Task<ReservationDto?> Execute(int userId) {
+        Reservation? reservation = await reservationRepository.GetByUserId(userId);
         if(reservation == null) return null;
 
         ReservationDto reservationDto = new ReservationDto();

@@ -11,12 +11,9 @@ public class GenreQuery : IGenreQuery {
         this.repository = repository;
     }
 
-    public List<GenreDto> Execute() {
-        List<GenreDto> genres = new List<GenreDto>();
-        foreach(Genre genre in repository.GetAll()) {
-            genres.Add(new GenreDto() { Genre = genre.Name, Description = genre.Description });
+    public async IAsyncEnumerable<GenreDto> Execute() {
+        await foreach(Genre genre in repository.GetAll()) {
+            yield return new GenreDto() { Genre = genre.Name, Description = genre.Description };
         }
-
-        return genres;
     }
 }

@@ -13,8 +13,8 @@ public class CartQuery : ICartQuery {
         this.cartRepository = cartRepository;
     }
 
-    public CartDto? Execute(int userId) {
-        Cart? cart = cartRepository.GetByUserId(userId);
+    public async Task<CartDto?> Execute(int userId) {
+        Cart? cart = await cartRepository.GetByUserId(userId);
         if(cart == null) return null;
 
         CartDto cartDto = new CartDto();

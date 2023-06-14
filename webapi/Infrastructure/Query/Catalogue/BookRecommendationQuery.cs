@@ -12,15 +12,15 @@ public class BookRecommendationQuery : IBookRecommendationQuery{
         this.repository = repository;
     }
 
-    public BookRecommendationDto Execute(int id, int limit) {
-        Book book = repository.GetById(id);
+    public async Task<BookRecommendationDto> Execute(int id, int limit) {
+        Book book = await repository.GetById(id);
 
         var recommendation = new BookRecommendationDto();
 
         Random random = new Random();
         string genre = book.Genres[random.Next(0, book.Genres.Count-1)];
         BookFinder bookFinder = new BookFinder(repository);
-        foreach(Book recBook in bookFinder.RandomByGenre(id, genre, limit)) {
+        await foreach(Book recBook in bookFinder.RandomByGenre(id, genre, limit)) {
             recommendation.Books.Add(new BooksDto() {
                 Id = recBook.Id,
                 Title = recBook.Title,

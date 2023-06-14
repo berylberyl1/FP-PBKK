@@ -11,8 +11,8 @@ public class BookDetailQuery : IBookDetailQuery {
         this.repository = repository;
     }
 
-    public BookDetailDto Execute(int id) {
-        Book book = repository.GetById(id);
+    public async Task<BookDetailDto> Execute(int id) {
+        Book book = await repository.GetById(id);
 
         return new BookDetailDto {
             Title = book.Title,

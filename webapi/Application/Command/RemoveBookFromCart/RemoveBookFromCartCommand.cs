@@ -19,11 +19,11 @@ public class RemoveBookFromCartCommand {
         this.cartRepository = cartRepository;
     }
 
-    public void Execute(RemoveBookFromCartRequest request) {
-        Book book = bookRepository.GetById(request.BookId);
+    public async Task Execute(RemoveBookFromCartRequest request) {
+        Book book = await bookRepository.GetById(request.BookId);
 
         CartService cartService = new CartService(cartRepository);
-        cartService.RemoveBookFromCart(request.UserId, new PaymentBook(
+        await cartService.RemoveBookFromCart(request.UserId, new PaymentBook(
             book.Id,
             book.Title,
             book.Author,

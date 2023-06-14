@@ -23,9 +23,9 @@ public class AuthenticationController : ControllerBase {
 
     [AllowAnonymous]
     [HttpPost("SignUp")]
-    public IActionResult SignUp([FromBody] RegistrationRequestDto request) {
+    public async Task<IActionResult> SignUp([FromBody] RegistrationRequestDto request) {
         try {
-            createUserCommand.Handle(request);
+            await createUserCommand.Handle(request);
         }
         catch (InvalidOperationException e) {
             return BadRequest(new {
@@ -38,10 +38,10 @@ public class AuthenticationController : ControllerBase {
 
     [AllowAnonymous]
     [HttpPost("LogIn")]
-    public IActionResult LogIn([FromBody] LogInDto request) {
+    public async Task<IActionResult> LogIn([FromBody] LogInDto request) {
         string token = "";
         try {
-            token = logInCommand.Handle(request);
+            token = await logInCommand.Handle(request);
         }
         catch (InvalidOperationException e) {
             return BadRequest(new {

@@ -18,12 +18,12 @@ public class HomeController : ControllerBase {
 
     [AllowAnonymous]
     [HttpGet]
-    public IActionResult Get() {
+    public async Task<IActionResult> Get() {
         var genreResult = genreQuery.Execute();
         var booksFromGenreResults = new List<RandomBooksFromGenreDto>();
-        foreach(GenreDto genreDto in genreResult) {
+        await foreach(GenreDto genreDto in genreResult) {
             if(genreDto.Genre == null) continue;
-            booksFromGenreResults.Add(booksFromGenreQuery.Execute(genreDto.Genre, 9));
+            booksFromGenreResults.Add(await booksFromGenreQuery.Execute(genreDto.Genre, 9));
         }
         var data = new { Genre = genreResult, RandomBooksFromGenre = booksFromGenreResults };
         return Ok(data);

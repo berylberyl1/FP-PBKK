@@ -36,20 +36,18 @@ public class BookRepository : IBookRepository {
         // db.SaveChanges();
     }
 
-    public IEnumerable<Book> GetAll() {
+    public async IAsyncEnumerable<Book> GetAll() {
         foreach(BookModel bookModel in db.Books.ToList()) {
-            Book? book = GetById(bookModel.Id);
+            Book? book = await GetById(bookModel.Id);
             if(book == null) continue;
 
             yield return book;
         }
     }
 
-    public Book GetById(int id) {
-       
-
+    public async Task<Book> GetById(int id) {
         //BookModel? bookModel = db.Books.Find(id);
-        BookModel? bookModel =  db.Books.Include(b => b.Genres).Where(b => b.Id == id).FirstOrDefault();
+        BookModel? bookModel =  await db.Books.Include(b => b.Genres).Where(b => b.Id == id).FirstOrDefaultAsync();
 
         if(bookModel == null) throw new ApplicationException($"Book with id: {id} doesn't exist.");
 
